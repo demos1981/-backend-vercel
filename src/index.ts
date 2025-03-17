@@ -8,7 +8,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port: number = parseInt(process.env.PORT || "3000", 10);
 
 // Middleware
 app.use(cors());
@@ -18,10 +18,15 @@ app.use(express.json());
 AppDataSource.initialize()
   .then(() => {
     console.log("Data Source has been initialized!");
+    // Start server only after database is initialized
+    app.listen(port, "0.0.0.0", () => {
+      console.log(`Server is running on http://localhost:${port}`);
+    });
   })
-  .catch((error) =>
-    console.log("Error during Data Source initialization:", error)
-  );
+  .catch((error) => {
+    console.error("Error during Data Source initialization:", error);
+    process.exit(1);
+  });
 
 // Health check endpoint
 app.get("/api/health", (_req: Request, res: Response): void => {
@@ -118,8 +123,3 @@ app.delete(
     }
   }
 );
-
-// Start server
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});

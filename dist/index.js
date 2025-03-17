@@ -11,14 +11,20 @@ const Item_1 = require("./entities/Item");
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
-const port = process.env.PORT || 3000;
+const port = parseInt(process.env.PORT || "3000", 10);
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 data_source_1.AppDataSource.initialize()
     .then(() => {
     console.log("Data Source has been initialized!");
+    app.listen(port, "0.0.0.0", () => {
+        console.log(`Server is running on http://localhost:${port}`);
+    });
 })
-    .catch((error) => console.log("Error during Data Source initialization:", error));
+    .catch((error) => {
+    console.error("Error during Data Source initialization:", error);
+    process.exit(1);
+});
 app.get("/api/health", (_req, res) => {
     res.json({ status: "ok" });
 });
@@ -98,8 +104,5 @@ app.delete("/api/items/:id", async (req, res) => {
         console.error("Error deleting item:", error);
         res.status(500).json({ error: "Internal server error" });
     }
-});
-app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
 });
 //# sourceMappingURL=index.js.map

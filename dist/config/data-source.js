@@ -12,14 +12,17 @@ const isProduction = process.env.NODE_ENV === "production";
 exports.AppDataSource = new typeorm_1.DataSource({
     type: "postgres",
     url: process.env.POSTGRES_URL,
-    ssl: isProduction
-        ? {
-            rejectUnauthorized: false,
-        }
-        : false,
+    ssl: {
+        rejectUnauthorized: false,
+    },
     entities: [Item_1.Item],
     migrations: ["src/migrations/*.ts"],
     synchronize: false,
     logging: !isProduction,
+    extra: {
+        ssl: {
+            rejectUnauthorized: false,
+        },
+    },
 });
 //# sourceMappingURL=data-source.js.map
