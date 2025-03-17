@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import express from "express";
+import express, { Request, Response } from "express";
 import cors from "cors";
 import { AppDataSource } from "./config/data-source";
 import { Item } from "./entities/Item";
@@ -24,12 +24,12 @@ AppDataSource.initialize()
   );
 
 // Health check endpoint
-app.get("/api/health", (req, res) => {
+app.get("/api/health", (_req: Request, res: Response): void => {
   res.json({ status: "ok" });
 });
 
 // Get all items
-app.get("/api/items", async (req, res) => {
+app.get("/api/items", async (_req: Request, res: Response): Promise<void> => {
   try {
     const itemRepository = AppDataSource.getRepository(Item);
     const items = await itemRepository.find();
@@ -41,7 +41,7 @@ app.get("/api/items", async (req, res) => {
 });
 
 // Create new item
-app.post("/api/items", async (req, res) => {
+app.post("/api/items", async (req: Request, res: Response): Promise<void> => {
   try {
     const itemRepository = AppDataSource.getRepository(Item);
     const newItem = itemRepository.create(req.body);
@@ -54,58 +54,70 @@ app.post("/api/items", async (req, res) => {
 });
 
 // Get item by ID
-app.get("/api/items/:id", async (req, res) => {
-  try {
-    const itemRepository = AppDataSource.getRepository(Item);
-    const item = await itemRepository.findOneBy({
-      id: parseInt(req.params.id),
-    });
-    if (!item) {
-      return res.status(404).json({ error: "Item not found" });
+app.get(
+  "/api/items/:id",
+  async (req: Request, res: Response): Promise<void> => {
+    try {
+      const itemRepository = AppDataSource.getRepository(Item);
+      const item = await itemRepository.findOneBy({
+        id: parseInt(req.params.id),
+      });
+      if (!item) {
+        res.status(404).json({ error: "Item not found" });
+        return;
+      }
+      res.json(item);
+    } catch (error) {
+      console.error("Error fetching item:", error);
+      res.status(500).json({ error: "Internal server error" });
     }
-    res.json(item);
-  } catch (error) {
-    console.error("Error fetching item:", error);
-    res.status(500).json({ error: "Internal server error" });
   }
-});
+);
 
 // Update item
-app.put("/api/items/:id", async (req, res) => {
-  try {
-    const itemRepository = AppDataSource.getRepository(Item);
-    const item = await itemRepository.findOneBy({
-      id: parseInt(req.params.id),
-    });
-    if (!item) {
-      return res.status(404).json({ error: "Item not found" });
+app.put(
+  "/api/items/:id",
+  async (req: Request, res: Response): Promise<void> => {
+    try {
+      const itemRepository = AppDataSource.getRepository(Item);
+      const item = await itemRepository.findOneBy({
+        id: parseInt(req.params.id),
+      });
+      if (!item) {
+        res.status(404).json({ error: "Item not found" });
+        return;
+      }
+      itemRepository.merge(item, req.body);
+      const result = await itemRepository.save(item);
+      res.json(result);
+    } catch (error) {
+      console.error("Error updating item:", error);
+      res.status(500).json({ error: "Internal server error" });
     }
-    itemRepository.merge(item, req.body);
-    const result = await itemRepository.save(item);
-    res.json(result);
-  } catch (error) {
-    console.error("Error updating item:", error);
-    res.status(500).json({ error: "Internal server error" });
   }
-});
+);
 
 // Delete item
-app.delete("/api/items/:id", async (req, res) => {
-  try {
-    const itemRepository = AppDataSource.getRepository(Item);
-    const item = await itemRepository.findOneBy({
-      id: parseInt(req.params.id),
-    });
-    if (!item) {
-      return res.status(404).json({ error: "Item not found" });
+app.delete(
+  "/api/items/:id",
+  async (req: Request, res: Response): Promise<void> => {
+    try {
+      const itemRepository = AppDataSource.getRepository(Item);
+      const item = await itemRepository.findOneBy({
+        id: parseInt(req.params.id),
+      });
+      if (!item) {
+        res.status(404).json({ error: "Item not found" });
+        return;
+      }
+      await itemRepository.remove(item);
+      res.status(204).send();
+    } catch (error) {
+      console.error("Error deleting item:", error);
+      res.status(500).json({ error: "Internal server error" });
     }
-    await itemRepository.remove(item);
-    res.status(204).send();
-  } catch (error) {
-    console.error("Error deleting item:", error);
-    res.status(500).json({ error: "Internal server error" });
   }
-});
+);
 
 // Start server
 app.listen(port, () => {
