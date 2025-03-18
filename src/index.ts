@@ -53,8 +53,8 @@ const startServer = async () => {
 startServer();
 
 // Health check endpoint
-app.get("/api/health", (_req: Request, res: Response): void => {
-  res.json({ status: "ok" });
+app.get("/", (_req: Request, res: Response): void => {
+  res.send("Hello, server is listen you");
 });
 
 // Get all items
