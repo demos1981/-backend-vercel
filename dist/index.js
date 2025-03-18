@@ -11,20 +11,41 @@ const Item_1 = require("./entities/Item");
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
-const port = parseInt(process.env.PORT || "3000", 10);
+const defaultPort = parseInt(process.env.PORT || "3001", 10);
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
-data_source_1.AppDataSource.initialize()
-    .then(() => {
-    console.log("Data Source has been initialized!");
-    app.listen(port, "0.0.0.0", () => {
-        console.log(`Server is running on http://localhost:${port}`);
+const findAvailablePort = async (startPort) => {
+    return new Promise((resolve, reject) => {
+        const server = require("net").createServer();
+        server.listen(startPort, () => {
+            const port = server.address().port;
+            server.close(() => resolve(port));
+        });
+        server.on("error", (err) => {
+            if (err.code === "EADDRINUSE") {
+                resolve(findAvailablePort(startPort + 1));
+            }
+            else {
+                reject(err);
+            }
+        });
     });
-})
-    .catch((error) => {
-    console.error("Error during Data Source initialization:", error);
-    process.exit(1);
-});
+};
+const startServer = async () => {
+    try {
+        await data_source_1.AppDataSource.initialize();
+        console.log("Data Source has been initialized!");
+        const port = await findAvailablePort(defaultPort);
+        app.listen(port, "0.0.0.0", () => {
+            console.log(`Server is running on http://localhost:${port}`);
+        });
+    }
+    catch (error) {
+        console.error("Error during initialization:", error);
+        process.exit(1);
+    }
+};
+startServer();
 app.get("/api/health", (_req, res) => {
     res.json({ status: "ok" });
 });
