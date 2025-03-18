@@ -46,8 +46,8 @@ const startServer = async () => {
     }
 };
 startServer();
-app.get("/api/health", (_req, res) => {
-    res.json({ status: "ok" });
+app.get("/", (_req, res) => {
+    res.send("Hello, server is listen you");
 });
 app.get("/api/items", async (_req, res) => {
     try {
