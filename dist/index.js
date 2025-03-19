@@ -16,7 +16,7 @@ const defaultPort = parseInt(process.env.PORT || "3000", 10);
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 app.use("/api/items", item_routes_1.default);
-app.get("/api/health", (_req, res) => {
+app.get("/", (_req, res) => {
     res.json({ status: "ok" });
 });
 app.use(error_middleware_1.errorHandler);
