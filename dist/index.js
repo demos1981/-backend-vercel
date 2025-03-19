@@ -10,32 +10,35 @@ const data_source_1 = require("./config/data-source");
 const item_routes_1 = __importDefault(require("./routes/item.routes"));
 const error_middleware_1 = require("./middleware/error.middleware");
 const dotenv_1 = __importDefault(require("dotenv"));
+const net_1 = require("net");
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const defaultPort = parseInt(process.env.PORT || "3000", 10);
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 app.use("/api/items", item_routes_1.default);
-app.get("/", (_req, res) => {
+app.get("/api/health", (_req, res) => {
     res.json({ status: "ok" });
 });
 app.use(error_middleware_1.errorHandler);
-const findAvailablePort = async (startPort) => {
-    return new Promise((resolve, reject) => {
-        const server = require("net").createServer();
-        server.listen(startPort, () => {
-            const port = server.address().port;
-            server.close(() => resolve(port));
-        });
-        server.on("error", (err) => {
-            if (err.code === "EADDRINUSE") {
-                resolve(findAvailablePort(startPort + 1));
-            }
-            else {
-                reject(err);
-            }
+const isPortInUse = (port) => {
+    return new Promise((resolve) => {
+        const server = (0, net_1.createServer)()
+            .listen(port, () => {
+            server.close();
+            resolve(false);
+        })
+            .on("error", () => {
+            resolve(true);
         });
     });
+};
+const findAvailablePort = async (startPort) => {
+    let port = startPort;
+    while (await isPortInUse(port)) {
+        port++;
+    }
+    return port;
 };
 const startServer = async () => {
     try {

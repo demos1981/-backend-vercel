@@ -5,11 +5,12 @@ import { AppDataSource } from "./config/data-source";
 import itemRoutes from "./routes/item.routes";
 import { errorHandler } from "./middleware/error.middleware";
 import dotenv from "dotenv";
+import { createServer } from "net";
 
 dotenv.config();
 
 const app = express();
-const defaultPort: number = parseInt(process.env.PORT || "3000", 10);
+const defaultPort = parseInt(process.env.PORT || "3000", 10);
 
 // Middleware
 app.use(cors());
@@ -19,31 +20,34 @@ app.use(express.json());
 app.use("/api/items", itemRoutes);
 
 // Health check endpoint
-app.get("/", (_req, res) => {
+app.get("/api/health", (_req, res) => {
   res.json({ status: "ok" });
 });
 
 // Error handling middleware
 app.use(errorHandler);
 
+// Function to check if a port is in use
+const isPortInUse = (port: number): Promise<boolean> => {
+  return new Promise((resolve) => {
+    const server = createServer()
+      .listen(port, () => {
+        server.close();
+        resolve(false);
+      })
+      .on("error", () => {
+        resolve(true);
+      });
+  });
+};
+
 // Function to find an available port
 const findAvailablePort = async (startPort: number): Promise<number> => {
-  return new Promise((resolve, reject) => {
-    const server = require("net").createServer();
-
-    server.listen(startPort, () => {
-      const port = (server.address() as any).port;
-      server.close(() => resolve(port));
-    });
-
-    server.on("error", (err: any) => {
-      if (err.code === "EADDRINUSE") {
-        resolve(findAvailablePort(startPort + 1));
-      } else {
-        reject(err);
-      }
-    });
-  });
+  let port = startPort;
+  while (await isPortInUse(port)) {
+    port++;
+  }
+  return port;
 };
 
 // Initialize TypeORM and start server

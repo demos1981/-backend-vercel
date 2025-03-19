@@ -1,5 +1,6 @@
 import { DataSource } from "typeorm";
 import { Item } from "../models/Item.entity";
+import { CreateItemTable1710716400000 } from "../migrations/1710716400000-CreateItemTable";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -13,12 +14,8 @@ export const AppDataSource = new DataSource({
     rejectUnauthorized: false,
   },
   entities: [Item],
-  migrations: ["src/migrations/*.ts"],
+  migrations: [CreateItemTable1710716400000],
+  migrationsRun: true, // Automatically run migrations on startup
   synchronize: false, // Set to false in production
   logging: !isProduction,
-  extra: {
-    ssl: {
-      rejectUnauthorized: false,
-    },
-  },
 });
