@@ -18,7 +18,7 @@ app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 app.use("/api/items", item_routes_1.default);
 app.get("/", (_req, res) => {
-    res.json({ status: "ok" });
+    res.send("Hello, server is listen you gays!");
 });
 app.use(error_middleware_1.errorHandler);
 const isPortInUse = (port) => {

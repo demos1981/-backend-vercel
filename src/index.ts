@@ -21,7 +21,7 @@ app.use("/api/items", itemRoutes);
 
 // Health check endpoint
 app.get("/", (_req, res) => {
-  res.json({ status: "ok" });
+  res.send("Hello, server is listen you gays!");
 });
 
 // Error handling middleware
