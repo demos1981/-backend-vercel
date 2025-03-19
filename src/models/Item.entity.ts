@@ -5,9 +5,10 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
 } from "typeorm";
+import { IItem } from "../types/item.types";
 
 @Entity()
-export class Item {
+export class Item implements IItem {
   @PrimaryGeneratedColumn()
   id: number;
 

@@ -1,16 +1,17 @@
 import "reflect-metadata";
 import { AppDataSource } from "./config/data-source";
-import { Item } from "./entities/Item";
+import { ItemService } from "./services/item.service";
+import { ICreateItemDto } from "./types/item.types";
 
 const seedDatabase = async () => {
   try {
     await AppDataSource.initialize();
     console.log("Connected to database");
 
-    const itemRepository = AppDataSource.getRepository(Item);
+    const itemService = new ItemService();
 
     // Sample items to insert
-    const sampleItems = [
+    const sampleItems: ICreateItemDto[] = [
       {
         name: "First Item",
         description: "This is the first sample item",
@@ -35,8 +36,7 @@ const seedDatabase = async () => {
 
     // Create and save items
     for (const itemData of sampleItems) {
-      const item = itemRepository.create(itemData);
-      await itemRepository.save(item);
+      const item = await itemService.create(itemData);
       console.log(`Created item: ${item.name}`);
     }
 
