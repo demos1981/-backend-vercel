@@ -20,7 +20,7 @@ app.use(express.json());
 app.use("/api/items", itemRoutes);
 
 // Health check endpoint
-app.get("/api/health", (_req, res) => {
+app.get("/", (_req, res) => {
   res.json({ status: "ok" });
 });
 
