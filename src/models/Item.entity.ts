@@ -6,17 +6,57 @@ import {
   UpdateDateColumn,
 } from "typeorm";
 import { IItem } from "../types/item.types";
+import { ItemStatusEnum } from "../types/item.types";
+import { ItemSexEnum } from "../types/item.types";
 
 @Entity()
 export class Item implements IItem {
   @PrimaryGeneratedColumn()
-  id: number;
+  id!: number;
 
-  @Column()
-  name: string;
+  @Column({ type: "varchar", length: 128, nullable: false })
+  articles!: string;
+
+  @Column({ type: "varchar", length: 128, nullable: false })
+  brand!: string;
+
+  @Column({ type: "varchar", length: 128, nullable: false })
+  name!: string;
+
+  @Column({ type: "varchar", length: 256, nullable: false })
+  description!: string;
+
+  @Column({ nullable: false })
+  quantity!: number;
+
+  @Column({ nullable: false })
+  price!: number;
 
   @Column({ nullable: true })
-  description: string;
+  barcode: number;
+
+  @Column({ type: "varchar", length: 128, nullable: true })
+  color: string;
+
+  @Column({ type: "varchar", length: 128, nullable: true })
+  size: string;
+
+  @Column({
+    type: "enum",
+    enum: ItemStatusEnum,
+    default: ItemStatusEnum.NEW,
+  })
+  role: ItemStatusEnum;
+
+  @Column({
+    type: "enum",
+    enum: ItemSexEnum,
+    default: ItemSexEnum.UNISEX,
+  })
+  sex: ItemSexEnum;
+
+  @Column({ nullable: true })
+  category: string;
 
   @CreateDateColumn()
   created_at: Date;
