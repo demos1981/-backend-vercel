@@ -6,9 +6,9 @@ import itemRoutes from "./routes/item.routes";
 import { errorHandler } from "./middleware/error.middleware";
 import dotenv from "dotenv";
 import { createServer } from "net";
-
+import { injectSpeedInsights } from "@vercel/speed-insights";
 dotenv.config();
-
+injectSpeedInsights();
 const app = express();
 const defaultPort = parseInt(process.env.PORT || "3000", 10);
 
