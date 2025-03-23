@@ -29,7 +29,7 @@ export class Item implements IItem {
   @Column({ nullable: false })
   quantity!: number;
 
-  @Column({ nullable: false })
+  @Column({ type: "decimal", precision: 10, scale: 2, nullable: false })
   price!: number;
 
   @Column({ nullable: true })

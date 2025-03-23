@@ -41,7 +41,7 @@ __decorate([
     __metadata("design:type", Number)
 ], Item.prototype, "quantity", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ nullable: false }),
+    (0, typeorm_1.Column)({ type: "decimal", precision: 10, scale: 2, nullable: false }),
     __metadata("design:type", Number)
 ], Item.prototype, "price", void 0);
 __decorate([

@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ItemController = void 0;
 const item_service_1 = require("../services/item.service");
+const item_types_1 = require("../types/item.types");
 class ItemController {
     constructor() {
         this.getAll = async (_req, res) => {
@@ -17,6 +18,10 @@ class ItemController {
         this.getById = async (req, res) => {
             try {
                 const id = parseInt(req.params.id);
+                if (isNaN(id)) {
+                    res.status(400).json({ error: "Invalid ID format" });
+                    return;
+                }
                 const item = await this.itemService.findById(id);
                 if (!item) {
                     res.status(404).json({ error: "Item not found" });
@@ -32,6 +37,47 @@ class ItemController {
         this.create = async (req, res) => {
             try {
                 const createItemDto = req.body;
+                const requiredFields = [
+                    "articles",
+                    "brand",
+                    "name",
+                    "description",
+                    "quantity",
+                    "price",
+                    "role",
+                    "sex",
+                    "category",
+                ];
+                const missingFields = requiredFields.filter((field) => !createItemDto[field]);
+                if (missingFields.length > 0) {
+                    res.status(400).json({
+                        error: "Missing required fields",
+                        fields: missingFields,
+                    });
+                    return;
+                }
+                if (!Object.values(item_types_1.ItemStatusEnum).includes(createItemDto.role)) {
+                    res.status(400).json({
+                        error: "Invalid role value",
+                        validValues: Object.values(item_types_1.ItemStatusEnum),
+                    });
+                    return;
+                }
+                if (!Object.values(item_types_1.ItemSexEnum).includes(createItemDto.sex)) {
+                    res.status(400).json({
+                        error: "Invalid sex value",
+                        validValues: Object.values(item_types_1.ItemSexEnum),
+                    });
+                    return;
+                }
+                if (createItemDto.quantity < 0) {
+                    res.status(400).json({ error: "Quantity cannot be negative" });
+                    return;
+                }
+                if (createItemDto.price < 0) {
+                    res.status(400).json({ error: "Price cannot be negative" });
+                    return;
+                }
                 const newItem = await this.itemService.create(createItemDto);
                 res.status(201).json(newItem);
             }
@@ -43,7 +89,35 @@ class ItemController {
         this.update = async (req, res) => {
             try {
                 const id = parseInt(req.params.id);
+                if (isNaN(id)) {
+                    res.status(400).json({ error: "Invalid ID format" });
+                    return;
+                }
                 const updateItemDto = req.body;
+                if (updateItemDto.role &&
+                    !Object.values(item_types_1.ItemStatusEnum).includes(updateItemDto.role)) {
+                    res.status(400).json({
+                        error: "Invalid role value",
+                        validValues: Object.values(item_types_1.ItemStatusEnum),
+                    });
+                    return;
+                }
+                if (updateItemDto.sex &&
+                    !Object.values(item_types_1.ItemSexEnum).includes(updateItemDto.sex)) {
+                    res.status(400).json({
+                        error: "Invalid sex value",
+                        validValues: Object.values(item_types_1.ItemSexEnum),
+                    });
+                    return;
+                }
+                if (updateItemDto.quantity !== undefined && updateItemDto.quantity < 0) {
+                    res.status(400).json({ error: "Quantity cannot be negative" });
+                    return;
+                }
+                if (updateItemDto.price !== undefined && updateItemDto.price < 0) {
+                    res.status(400).json({ error: "Price cannot be negative" });
+                    return;
+                }
                 const updatedItem = await this.itemService.update(id, updateItemDto);
                 if (!updatedItem) {
                     res.status(404).json({ error: "Item not found" });
@@ -59,6 +133,10 @@ class ItemController {
         this.delete = async (req, res) => {
             try {
                 const id = parseInt(req.params.id);
+                if (isNaN(id)) {
+                    res.status(400).json({ error: "Invalid ID format" });
+                    return;
+                }
                 const deleted = await this.itemService.delete(id);
                 if (!deleted) {
                     res.status(404).json({ error: "Item not found" });

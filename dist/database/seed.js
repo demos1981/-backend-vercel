@@ -1,10 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.seedDatabase = void 0;
-require("reflect-metadata");
-const data_source_1 = require("./config/data-source");
-const Item_entity_1 = require("./models/Item.entity");
-const item_types_1 = require("./types/item.types");
+const data_source_1 = require("../config/data-source");
+const Item_entity_1 = require("../models/Item.entity");
+const item_types_1 = require("../types/item.types");
 const sampleItems = [
     {
         articles: "T-Shirt",
@@ -12,7 +11,7 @@ const sampleItems = [
         name: "Classic T-Shirt",
         description: "Comfortable cotton t-shirt for everyday wear",
         quantity: 100,
-        price: 2999,
+        price: 29.99,
         barcode: 123456789,
         color: "Black",
         size: "M",
@@ -26,7 +25,7 @@ const sampleItems = [
         name: "Slim Fit Jeans",
         description: "Classic slim fit denim jeans",
         quantity: 50,
-        price: 7999,
+        price: 79.99,
         barcode: 987654321,
         color: "Blue",
         size: "32",
@@ -40,7 +39,7 @@ const sampleItems = [
         name: "Summer Floral Dress",
         description: "Light and breezy floral dress perfect for summer",
         quantity: 30,
-        price: 8999,
+        price: 89.99,
         barcode: 456789123,
         color: "White",
         size: "S",
@@ -54,7 +53,7 @@ const sampleItems = [
         name: "Running Shoes",
         description: "Comfortable running shoes with cushioning",
         quantity: 75,
-        price: 12999,
+        price: 129.99,
         barcode: 789123456,
         color: "White",
         size: "42",
@@ -68,7 +67,7 @@ const sampleItems = [
         name: "Winter Jacket",
         description: "Warm and waterproof winter jacket",
         quantity: 40,
-        price: 19999,
+        price: 199.99,
         barcode: 321654987,
         color: "Black",
         size: "L",
@@ -82,7 +81,7 @@ const sampleItems = [
         name: "Kids Sweater",
         description: "Cozy sweater for children",
         quantity: 60,
-        price: 3999,
+        price: 39.99,
         barcode: 147258369,
         color: "Red",
         size: "8",
