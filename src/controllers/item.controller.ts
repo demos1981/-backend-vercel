@@ -1,3 +1,7 @@
+/**
+ * Item Controller - Handles HTTP requests related to item management
+ * Implements CRUD operations and input validation for items
+ */
 import { Request, Response } from "express";
 import { ItemService } from "../services/item.service";
 import {
@@ -14,6 +18,12 @@ export class ItemController {
     this.itemService = new ItemService();
   }
 
+  /**
+   * Retrieves all items from the database
+   * @param _req - Express request object (unused)
+   * @param res - Express response object
+   * @returns Promise<void>
+   */
   getAll = async (_req: Request, res: Response): Promise<void> => {
     try {
       const items = await this.itemService.findAll();
@@ -24,6 +34,12 @@ export class ItemController {
     }
   };
 
+  /**
+   * Retrieves a single item by its ID
+   * @param req - Express request object containing item ID in params
+   * @param res - Express response object
+   * @returns Promise<void>
+   */
   getById = async (req: Request, res: Response): Promise<void> => {
     try {
       const id = parseInt(req.params.id);
@@ -45,6 +61,13 @@ export class ItemController {
     }
   };
 
+  /**
+   * Creates a new item in the database
+   * Validates required fields, enum values, and numeric constraints
+   * @param req - Express request object containing item data in body
+   * @param res - Express response object
+   * @returns Promise<void>
+   */
   create = async (req: Request, res: Response): Promise<void> => {
     try {
       const createItemDto = req.body as ICreateItemDto;
@@ -109,6 +132,13 @@ export class ItemController {
     }
   };
 
+  /**
+   * Updates an existing item in the database
+   * Validates ID format, enum values, and numeric constraints
+   * @param req - Express request object containing item ID in params and update data in body
+   * @param res - Express response object
+   * @returns Promise<void>
+   */
   update = async (req: Request, res: Response): Promise<void> => {
     try {
       const id = parseInt(req.params.id);
@@ -167,6 +197,12 @@ export class ItemController {
     }
   };
 
+  /**
+   * Deletes an item from the database
+   * @param req - Express request object containing item ID in params
+   * @param res - Express response object
+   * @returns Promise<void>
+   */
   delete = async (req: Request, res: Response): Promise<void> => {
     try {
       const id = parseInt(req.params.id);

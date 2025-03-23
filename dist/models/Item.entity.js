@@ -12,7 +12,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Item = void 0;
 const typeorm_1 = require("typeorm");
 const item_types_1 = require("../types/item.types");
-const item_types_2 = require("../types/item.types");
 let Item = class Item {
 };
 exports.Item = Item;
@@ -67,8 +66,8 @@ __decorate([
 __decorate([
     (0, typeorm_1.Column)({
         type: "enum",
-        enum: item_types_2.ItemSexEnum,
-        default: item_types_2.ItemSexEnum.UNISEX,
+        enum: item_types_1.ItemSexEnum,
+        default: item_types_1.ItemSexEnum.UNISEX,
     }),
     __metadata("design:type", String)
 ], Item.prototype, "sex", void 0);
