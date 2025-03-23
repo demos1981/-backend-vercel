@@ -5,9 +5,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { IItem } from "../types/item.types";
-import { ItemStatusEnum } from "../types/item.types";
-import { ItemSexEnum } from "../types/item.types";
+import { IItem, ItemStatusEnum, ItemSexEnum } from "../types/item.types";
 
 @Entity()
 export class Item implements IItem {
