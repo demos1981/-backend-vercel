@@ -11,6 +11,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Item = void 0;
 const typeorm_1 = require("typeorm");
+const item_types_1 = require("../types/item.types");
+const item_types_2 = require("../types/item.types");
 let Item = class Item {
 };
 exports.Item = Item;
@@ -19,13 +21,61 @@ __decorate([
     __metadata("design:type", Number)
 ], Item.prototype, "id", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ type: "varchar", length: 128, nullable: false }),
+    __metadata("design:type", String)
+], Item.prototype, "articles", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: "varchar", length: 128, nullable: false }),
+    __metadata("design:type", String)
+], Item.prototype, "brand", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: "varchar", length: 128, nullable: false }),
     __metadata("design:type", String)
 ], Item.prototype, "name", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ nullable: true }),
+    (0, typeorm_1.Column)({ type: "varchar", length: 256, nullable: false }),
     __metadata("design:type", String)
 ], Item.prototype, "description", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: false }),
+    __metadata("design:type", Number)
+], Item.prototype, "quantity", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: false }),
+    __metadata("design:type", Number)
+], Item.prototype, "price", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", Number)
+], Item.prototype, "barcode", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: "varchar", length: 128, nullable: true }),
+    __metadata("design:type", String)
+], Item.prototype, "color", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: "varchar", length: 128, nullable: true }),
+    __metadata("design:type", String)
+], Item.prototype, "size", void 0);
+__decorate([
+    (0, typeorm_1.Column)({
+        type: "enum",
+        enum: item_types_1.ItemStatusEnum,
+        default: item_types_1.ItemStatusEnum.NEW,
+    }),
+    __metadata("design:type", String)
+], Item.prototype, "role", void 0);
+__decorate([
+    (0, typeorm_1.Column)({
+        type: "enum",
+        enum: item_types_2.ItemSexEnum,
+        default: item_types_2.ItemSexEnum.UNISEX,
+    }),
+    __metadata("design:type", String)
+], Item.prototype, "sex", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], Item.prototype, "category", void 0);
 __decorate([
     (0, typeorm_1.CreateDateColumn)(),
     __metadata("design:type", Date)
