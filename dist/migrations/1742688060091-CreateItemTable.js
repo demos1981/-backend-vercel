@@ -66,14 +66,14 @@ class CreateItemTable1742688060091 {
                 {
                     name: "role",
                     type: "enum",
-                    enum: ["NEW", "USED", "DAMAGED"],
-                    default: "'NEW'",
+                    enum: ["new", "stock"],
+                    default: "'new'",
                 },
                 {
                     name: "sex",
                     type: "enum",
-                    enum: ["MALE", "FEMALE", "UNISEX"],
-                    default: "'UNISEX'",
+                    enum: ["man", "woman", "children", "unisex"],
+                    default: "'unisex'",
                 },
                 {
                     name: "category",
