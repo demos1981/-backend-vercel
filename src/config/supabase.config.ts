@@ -1,4 +1,8 @@
 import { createClient } from "@supabase/supabase-js";
+import dotenv from "dotenv";
+
+// Load environment variables
+dotenv.config();
 
 // Get Supabase credentials from environment variables
 const supabaseUrl = process.env.SUPABASE_URL;
@@ -34,22 +38,29 @@ export const STORAGE_BUCKET_NAME = "items-media";
 // Helper function to check Supabase connection
 export const checkSupabaseConnection = async () => {
   try {
-    // Test the connection by checking if we can access the storage bucket
-    const { data: buckets, error } = await supabase.storage.listBuckets();
+    // First, try to list buckets to check connection
+    const { data: existingBuckets, error: listError } =
+      await supabase.storage.listBuckets();
 
-    if (error) {
-      console.error("Supabase storage connection error:", error);
+    if (listError) {
+      console.error("Error listing buckets:", listError);
       return false;
     }
 
-    // Check if our required bucket exists
-    const hasRequiredBucket = buckets.some(
+    // Check if our bucket exists
+    const bucketExists = existingBuckets.some(
       (bucket) => bucket.name === STORAGE_BUCKET_NAME
     );
-    if (!hasRequiredBucket) {
-      console.error(
-        `Required storage bucket "${STORAGE_BUCKET_NAME}" not found`
+
+    if (!bucketExists) {
+      console.log(
+        `Storage bucket "${STORAGE_BUCKET_NAME}" not found. Please create it in the Supabase dashboard.`
       );
+      console.log("1. Go to your Supabase project dashboard");
+      console.log("2. Navigate to Storage in the left sidebar");
+      console.log("3. Click 'Create a new bucket'");
+      console.log(`4. Name it "${STORAGE_BUCKET_NAME}"`);
+      console.log("5. Set it as public");
       return false;
     }
 

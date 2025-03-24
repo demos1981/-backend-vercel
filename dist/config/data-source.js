@@ -12,7 +12,7 @@ dotenv_1.default.config();
 const isProduction = process.env.NODE_ENV === "production";
 exports.AppDataSource = new typeorm_1.DataSource({
     type: "postgres",
-    url: process.env.POSTGRES_URL,
+    url: process.env.DATABASE_URL,
     ssl: {
         rejectUnauthorized: false,
     },
@@ -21,5 +21,10 @@ exports.AppDataSource = new typeorm_1.DataSource({
     migrationsRun: true,
     synchronize: false,
     logging: !isProduction,
+    connectTimeoutMS: 10000,
+    extra: {
+        max: 20,
+        idleTimeoutMillis: 30000,
+    },
 });
 //# sourceMappingURL=data-source.js.map

@@ -5,38 +5,49 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { IItem, ItemStatusEnum, ItemSexEnum } from "../types/item.types";
 
-@Entity()
-export class Item implements IItem {
+export enum ItemStatusEnum {
+  NEW = "new",
+  STOCK = "stock",
+}
+
+export enum ItemSexEnum {
+  MAN = "man",
+  WOMAN = "woman",
+  CHILDREN = "children",
+  UNISEX = "unisex",
+}
+
+@Entity("item")
+export class Item {
   @PrimaryGeneratedColumn()
-  id!: number;
+  id: number;
 
-  @Column({ type: "varchar", length: 128, nullable: false })
-  articles!: string;
+  @Column()
+  articles: string;
 
-  @Column({ type: "varchar", length: 128, nullable: false })
-  brand!: string;
+  @Column()
+  brand: string;
 
-  @Column({ type: "varchar", length: 128, nullable: false })
-  name!: string;
+  @Column()
+  name: string;
 
-  @Column({ type: "varchar", length: 256, nullable: false })
-  description!: string;
+  @Column()
+  description: string;
 
-  @Column({ nullable: false })
-  quantity!: number;
+  @Column()
+  quantity: number;
 
-  @Column({ type: "decimal", precision: 10, scale: 2, nullable: false })
-  price!: number;
+  @Column("numeric", { precision: 10, scale: 2 })
+  price: number;
 
-  @Column({ nullable: true })
+  @Column()
   barcode: string;
 
-  @Column({ type: "varchar", length: 128, nullable: true })
+  @Column()
   color: string;
 
-  @Column({ type: "varchar", length: 128, nullable: true })
+  @Column()
   size: string;
 
   @Column({
@@ -53,14 +64,17 @@ export class Item implements IItem {
   })
   sex: ItemSexEnum;
 
-  @Column({ nullable: true })
+  @Column()
   category: string;
 
   @Column({ nullable: true })
-  photoUrl: string;
+  photoUrl?: string;
 
   @Column({ nullable: true })
-  videoUrl: string;
+  videoUrl?: string;
+
+  @Column({ nullable: true })
+  documentUrl?: string;
 
   @CreateDateColumn()
   created_at: Date;

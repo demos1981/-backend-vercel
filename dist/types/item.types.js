@@ -4,7 +4,7 @@ exports.ItemSexEnum = exports.ItemStatusEnum = void 0;
 var ItemStatusEnum;
 (function (ItemStatusEnum) {
     ItemStatusEnum["NEW"] = "new";
-    ItemStatusEnum["STOCk"] = "stock";
+    ItemStatusEnum["STOCK"] = "stock";
 })(ItemStatusEnum || (exports.ItemStatusEnum = ItemStatusEnum = {}));
 var ItemSexEnum;
 (function (ItemSexEnum) {

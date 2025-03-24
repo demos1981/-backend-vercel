@@ -9,7 +9,7 @@ const isProduction = process.env.NODE_ENV === "production";
 
 export const AppDataSource = new DataSource({
   type: "postgres",
-  url: process.env.POSTGRES_URL,
+  url: process.env.DATABASE_URL,
   ssl: {
     rejectUnauthorized: false,
   },
@@ -18,4 +18,12 @@ export const AppDataSource = new DataSource({
   migrationsRun: true, // Automatically run migrations on startup
   synchronize: false, // Set to false in production
   logging: !isProduction,
+  connectTimeoutMS: 10000, // 10 seconds timeout
+  extra: {
+    max: 20, // maximum number of connections in the pool
+    idleTimeoutMillis: 30000, // how long a connection can be idle before being closed
+    ssl: {
+      rejectUnauthorized: false,
+    },
+  },
 });
