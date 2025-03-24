@@ -56,6 +56,6 @@ export interface IUpdateItemDto {
   role?: ItemStatusEnum;
   sex?: ItemSexEnum;
   category?: string;
-  photoUrl?: string;
-  videoUrl?: string;
+  photoUrl?: string | null;
+  videoUrl?: string | null;
 }
