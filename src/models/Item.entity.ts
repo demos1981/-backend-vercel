@@ -31,7 +31,7 @@ export class Item implements IItem {
   price!: number;
 
   @Column({ nullable: true })
-  barcode: number;
+  barcode: string;
 
   @Column({ type: "varchar", length: 128, nullable: true })
   color: string;
@@ -55,6 +55,12 @@ export class Item implements IItem {
 
   @Column({ nullable: true })
   category: string;
+
+  @Column({ nullable: true })
+  photoUrl: string;
+
+  @Column({ nullable: true })
+  videoUrl: string;
 
   @CreateDateColumn()
   created_at: Date;

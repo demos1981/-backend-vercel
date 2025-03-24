@@ -1,3 +1,15 @@
+export enum ItemStatusEnum {
+  NEW = "new",
+  STOCK = "stock",
+}
+
+export enum ItemSexEnum {
+  MAN = "man",
+  WOMAN = "woman",
+  CHILDREN = "children",
+  UNISEX = "unisex",
+}
+
 export interface IItem {
   id: number;
   articles: string;
@@ -6,14 +18,14 @@ export interface IItem {
   description: string;
   quantity: number;
   price: number;
-  barcode: number;
+  barcode: string;
   color: string;
   size: string;
   role: ItemStatusEnum;
   sex: ItemSexEnum;
   category: string;
-  created_at: Date;
-  updated_at: Date;
+  photoUrl?: string;
+  videoUrl?: string;
 }
 
 export interface ICreateItemDto {
@@ -23,7 +35,7 @@ export interface ICreateItemDto {
   description: string;
   quantity: number;
   price: number;
-  barcode: number;
+  barcode: string;
   color: string;
   size: string;
   role: ItemStatusEnum;
@@ -38,22 +50,12 @@ export interface IUpdateItemDto {
   description?: string;
   quantity?: number;
   price?: number;
-  barcode?: number;
+  barcode?: string;
   color?: string;
   size?: string;
   role?: ItemStatusEnum;
   sex?: ItemSexEnum;
   category?: string;
-}
-
-export enum ItemStatusEnum {
-  NEW = "new",
-  STOCk = "stock",
-}
-
-export enum ItemSexEnum {
-  MAN = "man",
-  WOMAN = "woman",
-  CHILDREN = "children",
-  UNISEX = "unisex",
+  photoUrl?: string;
+  videoUrl?: string;
 }
