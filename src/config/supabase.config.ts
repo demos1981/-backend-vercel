@@ -33,7 +33,7 @@ export const supabase = createClient(supabaseUrl, supabaseKey, {
 });
 
 // Storage bucket configuration
-export const STORAGE_BUCKET_NAME = "items-media";
+export const bucketName: string = process.env.SUPABASE_BUCKET as string;
 
 // Helper function to check Supabase connection
 export const checkSupabaseConnection = async () => {
@@ -49,17 +49,17 @@ export const checkSupabaseConnection = async () => {
 
     // Check if our bucket exists
     const bucketExists = existingBuckets.some(
-      (bucket) => bucket.name === STORAGE_BUCKET_NAME
+      (bucket) => bucket.name === bucketName
     );
 
     if (!bucketExists) {
       console.log(
-        `Storage bucket "${STORAGE_BUCKET_NAME}" not found. Please create it in the Supabase dashboard.`
+        `Storage bucket "${bucketName}" not found. Please create it in the Supabase dashboard.`
       );
       console.log("1. Go to your Supabase project dashboard");
       console.log("2. Navigate to Storage in the left sidebar");
       console.log("3. Click 'Create a new bucket'");
-      console.log(`4. Name it "${STORAGE_BUCKET_NAME}"`);
+      console.log(`4. Name it "${bucketName}"`);
       console.log("5. Set it as public");
       return false;
     }

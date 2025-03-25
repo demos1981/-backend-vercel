@@ -8,14 +8,12 @@ class StorageService {
             const fileExt = file.originalname.split(".").pop();
             const fileName = `${itemId}/${Date.now()}.${fileExt}`;
             const filePath = `${fileName}`;
-            await supabase_config_1.supabase.storage
-                .from(supabase_config_1.STORAGE_BUCKET_NAME)
-                .upload(filePath, file.buffer, {
+            await supabase_config_1.supabase.storage.from(supabase_config_1.bucketName).upload(filePath, file.buffer, {
                 contentType: file.mimetype,
                 cacheControl: "3600",
                 upsert: false,
             });
-            const { data: { publicUrl }, } = supabase_config_1.supabase.storage.from(supabase_config_1.STORAGE_BUCKET_NAME).getPublicUrl(filePath);
+            const { data: { publicUrl }, } = supabase_config_1.supabase.storage.from(supabase_config_1.bucketName).getPublicUrl(filePath);
             return publicUrl;
         }
         catch (error) {
@@ -29,7 +27,7 @@ class StorageService {
             if (!filePath) {
                 throw new Error("Invalid file URL");
             }
-            await supabase_config_1.supabase.storage.from(supabase_config_1.STORAGE_BUCKET_NAME).remove([filePath]);
+            await supabase_config_1.supabase.storage.from(supabase_config_1.bucketName).remove([filePath]);
         }
         catch (error) {
             console.error("Error deleting file:", error);
