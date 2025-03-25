@@ -1,9 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.seedDatabase = void 0;
+require("reflect-metadata");
 const data_source_1 = require("../config/data-source");
 const Item_entity_1 = require("../models/Item.entity");
-const item_types_1 = require("../types/item.types");
+const enums_1 = require("../types/enums");
 const sampleItems = [
     {
         articles: "T-Shirt",
@@ -11,12 +12,12 @@ const sampleItems = [
         name: "Classic T-Shirt",
         description: "Comfortable cotton t-shirt for everyday wear",
         quantity: 100,
-        price: 29.99,
-        barcode: 123456789,
+        price: 2999,
+        barcode: "123456789",
         color: "Black",
         size: "M",
-        role: item_types_1.ItemStatusEnum.NEW,
-        sex: item_types_1.ItemSexEnum.UNISEX,
+        role: enums_1.ItemStatusEnum.NEW,
+        sex: enums_1.ItemSexEnum.UNISEX,
         category: "Clothing",
     },
     {
@@ -25,12 +26,12 @@ const sampleItems = [
         name: "Slim Fit Jeans",
         description: "Classic slim fit denim jeans",
         quantity: 50,
-        price: 79.99,
-        barcode: 987654321,
+        price: 7999,
+        barcode: "987654321",
         color: "Blue",
         size: "32",
-        role: item_types_1.ItemStatusEnum.STOCk,
-        sex: item_types_1.ItemSexEnum.MAN,
+        role: enums_1.ItemStatusEnum.STOCK,
+        sex: enums_1.ItemSexEnum.MAN,
         category: "Pants",
     },
     {
@@ -39,12 +40,12 @@ const sampleItems = [
         name: "Summer Floral Dress",
         description: "Light and breezy floral dress perfect for summer",
         quantity: 30,
-        price: 89.99,
-        barcode: 456789123,
+        price: 8999,
+        barcode: "456789123",
         color: "White",
         size: "S",
-        role: item_types_1.ItemStatusEnum.NEW,
-        sex: item_types_1.ItemSexEnum.WOMAN,
+        role: enums_1.ItemStatusEnum.NEW,
+        sex: enums_1.ItemSexEnum.WOMAN,
         category: "Dresses",
     },
     {
@@ -53,12 +54,12 @@ const sampleItems = [
         name: "Running Shoes",
         description: "Comfortable running shoes with cushioning",
         quantity: 75,
-        price: 129.99,
-        barcode: 789123456,
+        price: 12999,
+        barcode: "789123456",
         color: "White",
         size: "42",
-        role: item_types_1.ItemStatusEnum.STOCk,
-        sex: item_types_1.ItemSexEnum.UNISEX,
+        role: enums_1.ItemStatusEnum.STOCK,
+        sex: enums_1.ItemSexEnum.UNISEX,
         category: "Footwear",
     },
     {
@@ -67,12 +68,12 @@ const sampleItems = [
         name: "Winter Jacket",
         description: "Warm and waterproof winter jacket",
         quantity: 40,
-        price: 199.99,
-        barcode: 321654987,
+        price: 19999,
+        barcode: "321654987",
         color: "Black",
         size: "L",
-        role: item_types_1.ItemStatusEnum.NEW,
-        sex: item_types_1.ItemSexEnum.UNISEX,
+        role: enums_1.ItemStatusEnum.NEW,
+        sex: enums_1.ItemSexEnum.UNISEX,
         category: "Outerwear",
     },
     {
@@ -81,12 +82,12 @@ const sampleItems = [
         name: "Kids Sweater",
         description: "Cozy sweater for children",
         quantity: 60,
-        price: 39.99,
-        barcode: 147258369,
+        price: 3999,
+        barcode: "147258369",
         color: "Red",
         size: "8",
-        role: item_types_1.ItemStatusEnum.STOCk,
-        sex: item_types_1.ItemSexEnum.CHILDREN,
+        role: enums_1.ItemStatusEnum.STOCK,
+        sex: enums_1.ItemSexEnum.CHILDREN,
         category: "Kids",
     },
 ];

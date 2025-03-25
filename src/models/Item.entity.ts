@@ -5,18 +5,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
 } from "typeorm";
-
-export enum ItemStatusEnum {
-  NEW = "new",
-  STOCK = "stock",
-}
-
-export enum ItemSexEnum {
-  MAN = "man",
-  WOMAN = "woman",
-  CHILDREN = "children",
-  UNISEX = "unisex",
-}
+import { ItemStatusEnum, ItemSexEnum } from "../types/enums";
 
 @Entity("item")
 export class Item {

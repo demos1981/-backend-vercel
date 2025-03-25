@@ -25,6 +25,9 @@ exports.AppDataSource = new typeorm_1.DataSource({
     extra: {
         max: 20,
         idleTimeoutMillis: 30000,
+        ssl: {
+            rejectUnauthorized: false,
+        },
     },
 });
 //# sourceMappingURL=data-source.js.map

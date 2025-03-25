@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ItemController = void 0;
 const item_service_1 = require("../services/item.service");
-const item_types_1 = require("../types/item.types");
+const enums_1 = require("../types/enums");
 class ItemController {
     constructor() {
         this.getAll = async (_req, res) => {
@@ -56,17 +56,17 @@ class ItemController {
                     });
                     return;
                 }
-                if (!Object.values(item_types_1.ItemStatusEnum).includes(createItemDto.role)) {
+                if (!Object.values(enums_1.ItemStatusEnum).includes(createItemDto.role)) {
                     res.status(400).json({
                         error: "Invalid role value",
-                        validValues: Object.values(item_types_1.ItemStatusEnum),
+                        validValues: Object.values(enums_1.ItemStatusEnum),
                     });
                     return;
                 }
-                if (!Object.values(item_types_1.ItemSexEnum).includes(createItemDto.sex)) {
+                if (!Object.values(enums_1.ItemSexEnum).includes(createItemDto.sex)) {
                     res.status(400).json({
                         error: "Invalid sex value",
-                        validValues: Object.values(item_types_1.ItemSexEnum),
+                        validValues: Object.values(enums_1.ItemSexEnum),
                     });
                     return;
                 }
@@ -95,18 +95,18 @@ class ItemController {
                 }
                 const updateItemDto = req.body;
                 if (updateItemDto.role &&
-                    !Object.values(item_types_1.ItemStatusEnum).includes(updateItemDto.role)) {
+                    !Object.values(enums_1.ItemStatusEnum).includes(updateItemDto.role)) {
                     res.status(400).json({
                         error: "Invalid role value",
-                        validValues: Object.values(item_types_1.ItemStatusEnum),
+                        validValues: Object.values(enums_1.ItemStatusEnum),
                     });
                     return;
                 }
                 if (updateItemDto.sex &&
-                    !Object.values(item_types_1.ItemSexEnum).includes(updateItemDto.sex)) {
+                    !Object.values(enums_1.ItemSexEnum).includes(updateItemDto.sex)) {
                     res.status(400).json({
                         error: "Invalid sex value",
-                        validValues: Object.values(item_types_1.ItemSexEnum),
+                        validValues: Object.values(enums_1.ItemSexEnum),
                     });
                     return;
                 }
@@ -137,7 +137,7 @@ class ItemController {
                     res.status(400).json({ error: "Invalid ID format" });
                     return;
                 }
-                const deleted = await this.itemService.delete(id);
+                const deleted = await this.itemService.remove(id);
                 if (!deleted) {
                     res.status(404).json({ error: "Item not found" });
                     return;

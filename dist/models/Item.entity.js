@@ -11,7 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Item = void 0;
 const typeorm_1 = require("typeorm");
-const item_types_1 = require("../types/item.types");
+const enums_1 = require("../types/enums");
 let Item = class Item {
 };
 exports.Item = Item;
@@ -20,59 +20,59 @@ __decorate([
     __metadata("design:type", Number)
 ], Item.prototype, "id", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: "varchar", length: 128, nullable: false }),
+    (0, typeorm_1.Column)(),
     __metadata("design:type", String)
 ], Item.prototype, "articles", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: "varchar", length: 128, nullable: false }),
+    (0, typeorm_1.Column)(),
     __metadata("design:type", String)
 ], Item.prototype, "brand", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: "varchar", length: 128, nullable: false }),
+    (0, typeorm_1.Column)(),
     __metadata("design:type", String)
 ], Item.prototype, "name", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: "varchar", length: 256, nullable: false }),
+    (0, typeorm_1.Column)(),
     __metadata("design:type", String)
 ], Item.prototype, "description", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ nullable: false }),
+    (0, typeorm_1.Column)(),
     __metadata("design:type", Number)
 ], Item.prototype, "quantity", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: "decimal", precision: 10, scale: 2, nullable: false }),
+    (0, typeorm_1.Column)("numeric", { precision: 10, scale: 2 }),
     __metadata("design:type", Number)
 ], Item.prototype, "price", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ nullable: true }),
+    (0, typeorm_1.Column)(),
     __metadata("design:type", String)
 ], Item.prototype, "barcode", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: "varchar", length: 128, nullable: true }),
+    (0, typeorm_1.Column)(),
     __metadata("design:type", String)
 ], Item.prototype, "color", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: "varchar", length: 128, nullable: true }),
+    (0, typeorm_1.Column)(),
     __metadata("design:type", String)
 ], Item.prototype, "size", void 0);
 __decorate([
     (0, typeorm_1.Column)({
         type: "enum",
-        enum: item_types_1.ItemStatusEnum,
-        default: item_types_1.ItemStatusEnum.NEW,
+        enum: enums_1.ItemStatusEnum,
+        default: enums_1.ItemStatusEnum.NEW,
     }),
     __metadata("design:type", String)
 ], Item.prototype, "role", void 0);
 __decorate([
     (0, typeorm_1.Column)({
         type: "enum",
-        enum: item_types_1.ItemSexEnum,
-        default: item_types_1.ItemSexEnum.UNISEX,
+        enum: enums_1.ItemSexEnum,
+        default: enums_1.ItemSexEnum.UNISEX,
     }),
     __metadata("design:type", String)
 ], Item.prototype, "sex", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ nullable: true }),
+    (0, typeorm_1.Column)(),
     __metadata("design:type", String)
 ], Item.prototype, "category", void 0);
 __decorate([
@@ -84,6 +84,10 @@ __decorate([
     __metadata("design:type", String)
 ], Item.prototype, "videoUrl", void 0);
 __decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], Item.prototype, "documentUrl", void 0);
+__decorate([
     (0, typeorm_1.CreateDateColumn)(),
     __metadata("design:type", Date)
 ], Item.prototype, "created_at", void 0);
@@ -92,6 +96,6 @@ __decorate([
     __metadata("design:type", Date)
 ], Item.prototype, "updated_at", void 0);
 exports.Item = Item = __decorate([
-    (0, typeorm_1.Entity)()
+    (0, typeorm_1.Entity)("item")
 ], Item);
 //# sourceMappingURL=Item.entity.js.map

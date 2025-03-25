@@ -4,13 +4,8 @@
  */
 import { Request, Response } from "express";
 import { ItemService } from "../services/item.service";
-import {
-  ICreateItemDto,
-  IUpdateItemDto,
-  ItemStatusEnum,
-  ItemSexEnum,
-} from "../types/item.types";
-
+import { ICreateItemDto, IUpdateItemDto } from "../types/item.types";
+import { ItemStatusEnum, ItemSexEnum } from "../types/enums";
 export class ItemController {
   private itemService: ItemService;
 
@@ -211,7 +206,7 @@ export class ItemController {
         return;
       }
 
-      const deleted = await this.itemService.delete(id);
+      const deleted = await this.itemService.remove(id);
       if (!deleted) {
         res.status(404).json({ error: "Item not found" });
         return;

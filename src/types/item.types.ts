@@ -1,4 +1,4 @@
-import { ItemStatusEnum, ItemSexEnum } from "../models/Item.entity";
+import { ItemStatusEnum, ItemSexEnum } from "../types/enums";
 
 export interface IItem {
   id: number;
@@ -16,6 +16,7 @@ export interface IItem {
   category: string;
   photoUrl?: string;
   videoUrl?: string;
+  documentUrl?: string;
 }
 
 export interface ICreateItemDto {
