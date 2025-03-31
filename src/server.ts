@@ -1,10 +1,17 @@
 import "reflect-metadata";
+import express from "express";
+import cors from "cors";
 import { AppDataSource } from "./config/data-source";
 import { checkSupabaseConnection } from "./config/supabase.config";
-import app from "./app";
+
 import dotenv from "dotenv";
 // Load environment variables
 dotenv.config();
+
+const app = express();
+
+app.use(cors());
+app.use(express.json());
 
 const PORT = process.env.SUPABASE_PORT || 5000;
 
