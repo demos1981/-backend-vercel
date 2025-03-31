@@ -57,7 +57,7 @@ const startServer = async () => {
     console.log("Data Source has been initialized!");
 
     const port = await findAvailablePort(defaultPort);
-    app.listen(port, "0.0.0.0", () => {
+    app.listen(port, () => {
       console.log(`Server is running on http://localhost:${port}`);
     });
   } catch (error) {
@@ -67,3 +67,5 @@ const startServer = async () => {
 };
 
 startServer();
+
+export default app;
