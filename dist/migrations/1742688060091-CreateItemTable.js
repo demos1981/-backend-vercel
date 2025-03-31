@@ -81,6 +81,21 @@ class CreateItemTable1742688060091 {
                     isNullable: true,
                 },
                 {
+                    name: "photoUrl",
+                    type: "varchar",
+                    isNullable: true,
+                },
+                {
+                    name: "videoUrl",
+                    type: "varchar",
+                    isNullable: true,
+                },
+                {
+                    name: "documentUrl",
+                    type: "varchar",
+                    isNullable: true,
+                },
+                {
                     name: "created_at",
                     type: "timestamp",
                     default: "now()",
