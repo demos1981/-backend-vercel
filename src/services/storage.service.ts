@@ -1,4 +1,4 @@
-import { supabase, STORAGE_BUCKET_NAME } from "../config/supabase.config";
+import { supabase, bucketName } from "../config/supabase.config";
 
 export class StorageService {
   /**
@@ -13,17 +13,15 @@ export class StorageService {
       const fileName = `${itemId}/${Date.now()}.${fileExt}`;
       const filePath = `${fileName}`;
 
-      await supabase.storage
-        .from(STORAGE_BUCKET_NAME)
-        .upload(filePath, file.buffer, {
-          contentType: file.mimetype,
-          cacheControl: "3600",
-          upsert: false,
-        });
+      await supabase.storage.from(bucketName).upload(filePath, file.buffer, {
+        contentType: file.mimetype,
+        cacheControl: "3600",
+        upsert: false,
+      });
 
       const {
         data: { publicUrl },
-      } = supabase.storage.from(STORAGE_BUCKET_NAME).getPublicUrl(filePath);
+      } = supabase.storage.from(bucketName).getPublicUrl(filePath);
 
       return publicUrl;
     } catch (error) {
@@ -44,7 +42,7 @@ export class StorageService {
         throw new Error("Invalid file URL");
       }
 
-      await supabase.storage.from(STORAGE_BUCKET_NAME).remove([filePath]);
+      await supabase.storage.from(bucketName).remove([filePath]);
     } catch (error) {
       console.error("Error deleting file:", error);
       throw new Error("Failed to delete file");

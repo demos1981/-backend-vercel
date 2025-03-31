@@ -80,6 +80,22 @@ export class CreateItemTable1742688060091 implements MigrationInterface {
             isNullable: true,
           },
           {
+            name: "photoUrl",
+            type: "varchar",
+            isNullable: true,
+          },
+          {
+            name: "videoUrl",
+            type: "varchar",
+            isNullable: true,
+          },
+          {
+            name: "documentUrl",
+            type: "varchar",
+            isNullable: true,
+          },
+
+          {
             name: "created_at",
             type: "timestamp",
             default: "now()",
