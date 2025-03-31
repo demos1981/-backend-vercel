@@ -47,7 +47,7 @@ export class CreateItemTable1742688060091 implements MigrationInterface {
           },
           {
             name: "barcode",
-            type: "int",
+            type: "varchar",
             isNullable: true,
           },
           {
