@@ -5,6 +5,7 @@ var ItemStatusEnum;
 (function (ItemStatusEnum) {
     ItemStatusEnum["NEW"] = "new";
     ItemStatusEnum["STOCK"] = "stock";
+    ItemStatusEnum["OLD"] = "old";
 })(ItemStatusEnum || (exports.ItemStatusEnum = ItemStatusEnum = {}));
 var ItemSexEnum;
 (function (ItemSexEnum) {

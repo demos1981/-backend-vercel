@@ -1,6 +1,7 @@
 export enum ItemStatusEnum {
   NEW = "new",
   STOCK = "stock",
+  OLD = "old",
 }
 
 export enum ItemSexEnum {
