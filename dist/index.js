@@ -8,6 +8,7 @@ const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const data_source_1 = require("./config/data-source");
 const item_routes_1 = __importDefault(require("./routes/item.routes"));
+const media_routes_1 = __importDefault(require("./routes/media.routes"));
 const error_middleware_1 = require("./middleware/error.middleware");
 const dotenv_1 = __importDefault(require("dotenv"));
 const net_1 = require("net");
@@ -19,6 +20,7 @@ const defaultPort = parseInt(process.env.PORT || "3000", 10);
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 app.use("/api/items", item_routes_1.default);
+app.use("/api/items", media_routes_1.default);
 app.get("/", (_req, res) => {
     res.send("Hello, server is listen you gays!");
 });
