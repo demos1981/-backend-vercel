@@ -3,6 +3,7 @@ import express from "express";
 import cors from "cors";
 import { AppDataSource } from "./config/data-source";
 import itemRoutes from "./routes/item.routes";
+import mediaRoutes from "./routes/media.routes";
 import { errorHandler } from "./middleware/error.middleware";
 import dotenv from "dotenv";
 import { createServer } from "net";
@@ -18,6 +19,7 @@ app.use(express.json());
 
 // Routes
 app.use("/api/items", itemRoutes);
+app.use("/api/items", mediaRoutes);
 
 // Health check endpoint
 app.get("/", (_req, res) => {
