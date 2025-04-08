@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.seedDatabase = void 0;
+exports.seedDatabase = seedDatabase;
 require("reflect-metadata");
 const data_source_1 = require("../config/data-source");
 const Item_entity_1 = require("../models/Item.entity");
@@ -106,7 +106,6 @@ async function seedDatabase() {
         throw error;
     }
 }
-exports.seedDatabase = seedDatabase;
 if (require.main === module) {
     data_source_1.AppDataSource.initialize()
         .then(() => {
