@@ -30,7 +30,7 @@ router.post(
   upload.single("photo"),
   mediaController.uploadPhoto
 );
-router.delete("/items/:id/photo", mediaController.deletePhoto);
+router.delete("/media/:id/photo", mediaController.deletePhoto);
 
 // Video routes
 router.post(
@@ -38,6 +38,6 @@ router.post(
   upload.single("video"),
   mediaController.uploadVideo
 );
-router.delete("/items/:id/video", mediaController.deleteVideo);
+router.delete("/media/:id/video", mediaController.deleteVideo);
 
 export default router;

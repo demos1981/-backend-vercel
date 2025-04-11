@@ -24,8 +24,8 @@ const upload = (0, multer_1.default)({
     },
 });
 router.post("/media/:id/photo", upload.single("photo"), mediaController.uploadPhoto);
-router.delete("/items/:id/photo", mediaController.deletePhoto);
+router.delete("/media/:id/photo", mediaController.deletePhoto);
 router.post("/media/:id/video", upload.single("video"), mediaController.uploadVideo);
-router.delete("/items/:id/video", mediaController.deleteVideo);
+router.delete("/media/:id/video", mediaController.deleteVideo);
 exports.default = router;
 //# sourceMappingURL=media.routes.js.map
