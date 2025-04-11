@@ -48,7 +48,7 @@ class CreateItemTable1742688060091 {
                 },
                 {
                     name: "barcode",
-                    type: "int",
+                    type: "varchar",
                     isNullable: true,
                 },
                 {

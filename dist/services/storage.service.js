@@ -23,15 +23,22 @@ class StorageService {
     }
     async deleteFile(fileUrl) {
         try {
-            const filePath = fileUrl.split("/").pop();
+            const urlParts = fileUrl.split(`${supabase_config_1.bucketName}/`);
+            const filePath = urlParts[1];
             if (!filePath) {
-                throw new Error("Invalid file URL");
+                throw new Error("Invalid file URL — шлях до файлу не знайдено.");
             }
-            await supabase_config_1.supabase.storage.from(supabase_config_1.bucketName).remove([filePath]);
+            const { error } = await supabase_config_1.supabase.storage
+                .from(supabase_config_1.bucketName)
+                .remove([filePath]);
+            if (error) {
+                console.error("Помилка при видаленні файлу з Supabase:", error.message);
+                throw new Error("Не вдалося видалити файл.");
+            }
         }
         catch (error) {
-            console.error("Error deleting file:", error);
-            throw new Error("Failed to delete file");
+            console.error("Помилка в deleteFile:", error);
+            throw new Error("Не вдалося видалити файл.");
         }
     }
 }

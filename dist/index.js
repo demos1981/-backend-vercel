@@ -17,10 +17,14 @@ dotenv_1.default.config();
 (0, speed_insights_1.injectSpeedInsights)();
 const app = (0, express_1.default)();
 const defaultPort = parseInt(process.env.PORT || "3000", 10);
-app.use((0, cors_1.default)());
+app.use((0, cors_1.default)({
+    origin: "https://node-lerningfrontend.vercel.app",
+    methods: ["GET", "POST", "DELETE"],
+    allowedHeaders: ["Content-Type"],
+}));
 app.use(express_1.default.json());
 app.use("/api/items", item_routes_1.default);
-app.use("/api/items", media_routes_1.default);
+app.use("/api/media", media_routes_1.default);
 app.get("/", (_req, res) => {
     res.send("Hello, server is listen you gays!");
 });
