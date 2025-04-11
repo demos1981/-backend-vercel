@@ -14,12 +14,18 @@ const app = express();
 const defaultPort = parseInt(process.env.PORT || "3000", 10);
 
 // Middleware
-app.use(cors());
+app.use(
+  cors({
+    origin: "https://node-lerningfrontend.vercel.app", // або твій фронтенд-домен
+    methods: ["GET", "POST", "DELETE"],
+    allowedHeaders: ["Content-Type"],
+  })
+);
 app.use(express.json());
 
 // Routes
 app.use("/api/items", itemRoutes);
-app.use("/api/items", mediaRoutes);
+app.use("/api/media", mediaRoutes);
 
 // Health check endpoint
 app.get("/", (_req, res) => {

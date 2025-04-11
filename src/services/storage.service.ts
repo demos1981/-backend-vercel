@@ -35,17 +35,40 @@ export class StorageService {
    * @param fileUrl - The public URL of the file to delete
    * @returns Promise<void>
    */
+  // async deleteFile(fileUrl: string): Promise<void> {
+  //   try {
+  //     const filePath = fileUrl.split("/").pop();
+  //     if (!filePath) {
+  //       throw new Error("Invalid file URL");
+  //     }
+
+  //     await supabase.storage.from(bucketName).remove([filePath]);
+  //   } catch (error) {
+  //     console.error("Error deleting file:", error);
+  //     throw new Error("Failed to delete file");
+  //   }
+  // }
+
   async deleteFile(fileUrl: string): Promise<void> {
     try {
-      const filePath = fileUrl.split("/").pop();
+      const urlParts = fileUrl.split(`${bucketName}/`);
+      const filePath = urlParts[1];
+
       if (!filePath) {
-        throw new Error("Invalid file URL");
+        throw new Error("Invalid file URL — шлях до файлу не знайдено.");
       }
 
-      await supabase.storage.from(bucketName).remove([filePath]);
+      const { error } = await supabase.storage
+        .from(bucketName)
+        .remove([filePath]);
+
+      if (error) {
+        console.error("Помилка при видаленні файлу з Supabase:", error.message);
+        throw new Error("Не вдалося видалити файл.");
+      }
     } catch (error) {
-      console.error("Error deleting file:", error);
-      throw new Error("Failed to delete file");
+      console.error("Помилка в deleteFile:", error);
+      throw new Error("Не вдалося видалити файл.");
     }
   }
 }
