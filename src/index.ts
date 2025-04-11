@@ -14,13 +14,7 @@ const app = express();
 const defaultPort = parseInt(process.env.PORT || "3000", 10);
 
 // Middleware
-app.use(
-  cors({
-    origin: "https://node-lerningfrontend.vercel.app", // або твій фронтенд-домен
-    methods: ["GET", "POST", "DELETE"],
-    allowedHeaders: ["Content-Type"],
-  })
-);
+app.use(cors());
 app.use(express.json());
 
 // Routes
