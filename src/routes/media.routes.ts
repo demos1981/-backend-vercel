@@ -26,7 +26,7 @@ const upload = multer({
 
 // Photo routes
 router.post(
-  "/items/:id/photo",
+  "/media/:id/photo",
   upload.single("photo"),
   mediaController.uploadPhoto
 );
@@ -34,7 +34,7 @@ router.delete("/items/:id/photo", mediaController.deletePhoto);
 
 // Video routes
 router.post(
-  "/items/:id/video",
+  "/media/:id/video",
   upload.single("video"),
   mediaController.uploadVideo
 );

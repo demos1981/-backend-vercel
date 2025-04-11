@@ -22,7 +22,7 @@ export class MediaController {
         res.status(400).json({ error: "No file uploaded" });
         return;
       }
-
+      console.log("Отримано файл:", req.file);
       const itemId = parseInt(req.params.id);
       if (isNaN(itemId)) {
         res.status(400).json({ error: "Invalid item ID" });
