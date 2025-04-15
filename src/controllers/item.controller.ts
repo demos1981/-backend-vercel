@@ -49,7 +49,11 @@ export class ItemController {
         return;
       }
 
-      res.json(item);
+      res.json({ 
+        id: item.id,
+        name: item.name, // або будь-які інші поля
+        photoUrl: item.photoUrl,
+        videoUrl: item.videoUrl,});
     } catch (error) {
       console.error("Error fetching item:", error);
       res.status(500).json({ error: "Internal server error" });
