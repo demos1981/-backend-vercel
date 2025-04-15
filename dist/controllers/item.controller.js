@@ -27,7 +27,12 @@ class ItemController {
                     res.status(404).json({ error: "Item not found" });
                     return;
                 }
-                res.json(item);
+                res.json({
+                    id: item.id,
+                    name: item.name,
+                    photoUrl: item.photoUrl,
+                    videoUrl: item.videoUrl,
+                });
             }
             catch (error) {
                 console.error("Error fetching item:", error);
