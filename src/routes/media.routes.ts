@@ -5,39 +5,25 @@ import multer from "multer";
 const router = Router();
 const mediaController = new MediaController();
 
-// Configure multer for memory storage
+// Налаштування Multer для обробки завантаження файлів
+const storage = multer.memoryStorage(); // Зберігаємо файл в пам'яті, щоб потім передати його до Supabase
 const upload = multer({
-  storage: multer.memoryStorage(),
-  limits: {
-    fileSize: 10 * 1024 * 1024, // 10MB limit
-  },
-  fileFilter: (_req, file, cb) => {
-    // Accept images and videos only
-    if (
-      file.mimetype.startsWith("image/") ||
-      file.mimetype.startsWith("video/")
-    ) {
-      cb(null, true);
-    } else {
-      cb(new Error("Invalid file type. Only images and videos are allowed."));
-    }
-  },
+  storage,
+  limits: { fileSize: 10 * 1024 * 1024 }, // 10MB ліміт файлу
 });
 
-// Photo routes
+// Маршрути для завантаження та видалення медіа
 router.post(
-  "/media/:id/photo",
-  upload.single("photo"),
+  "/items/:id/photo",
+  upload.single("file"),
   mediaController.uploadPhoto
 );
-router.delete("/media/:id/photo", mediaController.deletePhoto);
-
-// Video routes
 router.post(
-  "/media/:id/video",
-  upload.single("video"),
+  "/items/:id/video",
+  upload.single("file"),
   mediaController.uploadVideo
 );
-router.delete("/media/:id/video", mediaController.deleteVideo);
+router.delete("/items/:id/photo", mediaController.deletePhoto);
+router.delete("/items/:id/video", mediaController.deleteVideo);
 
 export default router;

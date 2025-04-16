@@ -8,24 +8,14 @@ const media_controller_1 = require("../controllers/media.controller");
 const multer_1 = __importDefault(require("multer"));
 const router = (0, express_1.Router)();
 const mediaController = new media_controller_1.MediaController();
+const storage = multer_1.default.memoryStorage();
 const upload = (0, multer_1.default)({
-    storage: multer_1.default.memoryStorage(),
-    limits: {
-        fileSize: 10 * 1024 * 1024,
-    },
-    fileFilter: (_req, file, cb) => {
-        if (file.mimetype.startsWith("image/") ||
-            file.mimetype.startsWith("video/")) {
-            cb(null, true);
-        }
-        else {
-            cb(new Error("Invalid file type. Only images and videos are allowed."));
-        }
-    },
+    storage,
+    limits: { fileSize: 10 * 1024 * 1024 },
 });
-router.post("/media/:id/photo", upload.single("photo"), mediaController.uploadPhoto);
-router.delete("/media/:id/photo", mediaController.deletePhoto);
-router.post("/media/:id/video", upload.single("video"), mediaController.uploadVideo);
-router.delete("/media/:id/video", mediaController.deleteVideo);
+router.post("/items/:id/photo", upload.single("file"), mediaController.uploadPhoto);
+router.post("/items/:id/video", upload.single("file"), mediaController.uploadVideo);
+router.delete("/items/:id/photo", mediaController.deletePhoto);
+router.delete("/items/:id/video", mediaController.deleteVideo);
 exports.default = router;
 //# sourceMappingURL=media.routes.js.map
