@@ -10,7 +10,29 @@ export class MediaController {
     this.storageService = new StorageService();
     this.itemService = new ItemService();
   }
+  getItemMedia = async (req: Request, res: Response): Promise<void> => {
+    try {
+      const itemId = parseInt(req.params.id);
+      if (isNaN(itemId)) {
+        res.status(400).json({ error: "Invalid item ID" });
+        return;
+      }
 
+      const item = await this.itemService.findById(itemId);
+      if (!item) {
+        res.status(404).json({ error: "Item not found" });
+        return;
+      }
+
+      res.json({
+        photoUrl: item.photoUrl || null,
+        videoUrl: item.videoUrl || null,
+      });
+    } catch (error) {
+      console.error("Error getting item media:", error);
+      res.status(500).json({ error: "Failed to get item media" });
+    }
+  };
   /**
    * Uploads a photo for an item
    * @param req - Express request object containing the file and item ID

@@ -8,6 +8,7 @@ const media_controller_1 = require("../controllers/media.controller");
 const multer_1 = __importDefault(require("multer"));
 const router = (0, express_1.Router)();
 const mediaController = new media_controller_1.MediaController();
+router.get("/items/:id/media", mediaController.getItemMedia);
 const storage = multer_1.default.memoryStorage();
 const upload = (0, multer_1.default)({
     storage,

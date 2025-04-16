@@ -4,7 +4,7 @@ import multer from "multer";
 
 const router = Router();
 const mediaController = new MediaController();
-
+router.get("/items/:id/media", mediaController.getItemMedia);
 // Налаштування Multer для обробки завантаження файлів
 const storage = multer.memoryStorage(); // Зберігаємо файл в пам'яті, щоб потім передати його до Supabase
 const upload = multer({
