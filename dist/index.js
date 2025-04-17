@@ -13,6 +13,7 @@ const error_middleware_1 = require("./middleware/error.middleware");
 const dotenv_1 = __importDefault(require("dotenv"));
 const net_1 = require("net");
 const speed_insights_1 = require("@vercel/speed-insights");
+const supabase_config_1 = require("./config/supabase.config");
 dotenv_1.default.config();
 (0, speed_insights_1.injectSpeedInsights)();
 const app = (0, express_1.default)();
@@ -20,7 +21,7 @@ const defaultPort = parseInt(process.env.PORT || "3000", 10);
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 app.use("/api/items", item_routes_1.default);
-app.use("/api", media_routes_1.default);
+app.use("/api/media", media_routes_1.default);
 app.get("/", (_req, res) => {
     res.send("Hello, server is listen you gays!");
 });
@@ -48,6 +49,11 @@ const startServer = async () => {
     try {
         await data_source_1.AppDataSource.initialize();
         console.log("Data Source has been initialized!");
+        const isSupabaseConnected = await (0, supabase_config_1.checkSupabaseConnection)();
+        if (!isSupabaseConnected) {
+            console.error("❌ Failed to connect to Supabase");
+            process.exit(1);
+        }
         const port = await findAvailablePort(defaultPort);
         app.listen(port, () => {
             console.log(`Server is running on http://localhost:${port}`);

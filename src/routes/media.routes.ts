@@ -1,29 +1,57 @@
-import { Router } from "express";
+/**
+ * Маршрути для роботи з медіафайлами
+ *
+ * Цей файл визначає маршрути API для отримання, завантаження та видалення
+ * медіафайлів (фото та відео) для елементів у системі
+ */
+import express, { Router } from "express";
 import { MediaController } from "../controllers/media.controller";
-import multer from "multer";
+import { upload } from "../middleware/multer.middleware";
 
-const router = Router();
+// Створення маршрутизатора Express
+const router: Router = express.Router();
+
+// Ініціалізація контролера для обробки запитів на медіафайли
 const mediaController = new MediaController();
-router.get("/items/:id/media", mediaController.getItemMedia);
-// Налаштування Multer для обробки завантаження файлів
-const storage = multer.memoryStorage(); // Зберігаємо файл в пам'яті, щоб потім передати його до Supabase
-const upload = multer({
-  storage,
-  limits: { fileSize: 10 * 1024 * 1024 }, // 10MB ліміт файлу
-});
 
-// Маршрути для завантаження та видалення медіа
+/**
+ * GET /items/:id/media
+ * Отримання медіафайлів (URL фото та відео) для конкретного елемента за його ID
+ */
+router.get("/items/:id/media", mediaController.getItemMedia);
+
+/**
+ * POST /items/:id/photo
+ * Завантаження фото для елемента
+ * Використовує middleware multer для обробки файлу з поля "photo"
+ */
 router.post(
   "/items/:id/photo",
-  upload.single("photo"),
-  mediaController.uploadPhoto
+  upload.single("photo"), // Middleware для обробки одного файлу з поля "photo"
+  mediaController.uploadPhoto // Обробник завантаження фото
 );
+
+/**
+ * POST /items/:id/video
+ * Завантаження відео для елемента
+ * Використовує middleware multer для обробки файлу з поля "video"
+ */
 router.post(
   "/items/:id/video",
-  upload.single("video"),
-  mediaController.uploadVideo
+  upload.single("video"), // Middleware для обробки одного файлу з поля "video"
+  mediaController.uploadVideo // Обробник завантаження відео
 );
+
+/**
+ * DELETE /items/:id/photo
+ * Видалення фотографії для елемента за його ID
+ */
 router.delete("/items/:id/photo", mediaController.deletePhoto);
+
+/**
+ * DELETE /items/:id/video
+ * Видалення відео для елемента за його ID
+ */
 router.delete("/items/:id/video", mediaController.deleteVideo);
 
 export default router;

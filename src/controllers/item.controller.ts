@@ -6,23 +6,31 @@ import { Request, Response } from "express";
 import { ItemService } from "../services/item.service";
 import { ICreateItemDto, IUpdateItemDto } from "../types/item.types";
 import { ItemStatusEnum, ItemSexEnum } from "../types/enums";
-export class ItemController {
-  private itemService: ItemService;
 
+/**
+ * Клас для управління товарами через HTTP запити
+ * Реалізує операції CRUD та валідацію введених даних
+ */
+export class ItemController {
+  private itemService: ItemService; // Сервіс для роботи з товарами в базі даних
+
+  /**
+   * Ініціалізує сервіс для роботи з товарами
+   */
   constructor() {
     this.itemService = new ItemService();
   }
 
   /**
-   * Retrieves all items from the database
-   * @param _req - Express request object (unused)
+   * Отримує всі товари з бази даних
+   * @param _req - Express request object (не використовується)
    * @param res - Express response object
    * @returns Promise<void>
    */
   getAll = async (_req: Request, res: Response): Promise<void> => {
     try {
-      const items = await this.itemService.findAll();
-      res.json(items);
+      const items = await this.itemService.findAll(); // Отримання всіх товарів
+      res.json(items); // Повертає масив товарів
     } catch (error) {
       console.error("Error fetching items:", error);
       res.status(500).json({ error: "Internal server error" });
@@ -30,30 +38,34 @@ export class ItemController {
   };
 
   /**
-   * Retrieves a single item by its ID
-   * @param req - Express request object containing item ID in params
+   * Отримує один товар за його ID
+   * @param req - Express request object з ID товару в параметрах
    * @param res - Express response object
    * @returns Promise<void>
    */
   getById = async (req: Request, res: Response): Promise<void> => {
     try {
+      // Перевірка формату ID
       const id = parseInt(req.params.id);
       if (isNaN(id)) {
         res.status(400).json({ error: "Invalid ID format" });
         return;
       }
 
+      // Пошук товару за ID
       const item = await this.itemService.findById(id);
       if (!item) {
         res.status(404).json({ error: "Item not found" });
         return;
       }
 
-      res.json({ 
+      // Повертає знайдений товар з вибраними полями
+      res.json({
         id: item.id,
         name: item.name, // або будь-які інші поля
         photoUrl: item.photoUrl,
-        videoUrl: item.videoUrl,});
+        videoUrl: item.videoUrl,
+      });
     } catch (error) {
       console.error("Error fetching item:", error);
       res.status(500).json({ error: "Internal server error" });
@@ -61,9 +73,9 @@ export class ItemController {
   };
 
   /**
-   * Creates a new item in the database
-   * Validates required fields, enum values, and numeric constraints
-   * @param req - Express request object containing item data in body
+   * Створює новий товар у базі даних
+   * Валідує обов'язкові поля, значення enum та числові обмеження
+   * @param req - Express request object з даними товару в тілі запиту
    * @param res - Express response object
    * @returns Promise<void>
    */
@@ -71,7 +83,7 @@ export class ItemController {
     try {
       const createItemDto = req.body as ICreateItemDto;
 
-      // Validate required fields
+      // Валідація обов'язкових полів
       const requiredFields = [
         "articles",
         "brand",
@@ -95,7 +107,7 @@ export class ItemController {
         return;
       }
 
-      // Validate enum values
+      // Валідація значень enum
       if (!Object.values(ItemStatusEnum).includes(createItemDto.role)) {
         res.status(400).json({
           error: "Invalid role value",
@@ -112,7 +124,7 @@ export class ItemController {
         return;
       }
 
-      // Validate numeric fields
+      // Валідація числових полів
       if (createItemDto.quantity < 0) {
         res.status(400).json({ error: "Quantity cannot be negative" });
         return;
@@ -123,8 +135,9 @@ export class ItemController {
         return;
       }
 
+      // Створення нового товару
       const newItem = await this.itemService.create(createItemDto);
-      res.status(201).json(newItem);
+      res.status(201).json(newItem); // Повертає створений товар з кодом 201
     } catch (error) {
       console.error("Error creating item:", error);
       res.status(500).json({ error: "Internal server error" });
@@ -132,14 +145,15 @@ export class ItemController {
   };
 
   /**
-   * Updates an existing item in the database
-   * Validates ID format, enum values, and numeric constraints
-   * @param req - Express request object containing item ID in params and update data in body
+   * Оновлює існуючий товар у базі даних
+   * Валідує формат ID, значення enum та числові обмеження
+   * @param req - Express request object з ID товару в параметрах та даними для оновлення в тілі запиту
    * @param res - Express response object
    * @returns Promise<void>
    */
   update = async (req: Request, res: Response): Promise<void> => {
     try {
+      // Перевірка формату ID
       const id = parseInt(req.params.id);
       if (isNaN(id)) {
         res.status(400).json({ error: "Invalid ID format" });
@@ -148,7 +162,7 @@ export class ItemController {
 
       const updateItemDto = req.body as IUpdateItemDto;
 
-      // Validate enum values if provided
+      // Валідація значень enum, якщо надані
       if (
         updateItemDto.role &&
         !Object.values(ItemStatusEnum).includes(updateItemDto.role)
@@ -171,7 +185,7 @@ export class ItemController {
         return;
       }
 
-      // Validate numeric fields if provided
+      // Валідація числових полів, якщо надані
       if (updateItemDto.quantity !== undefined && updateItemDto.quantity < 0) {
         res.status(400).json({ error: "Quantity cannot be negative" });
         return;
@@ -182,6 +196,7 @@ export class ItemController {
         return;
       }
 
+      // Оновлення товару
       const updatedItem = await this.itemService.update(id, updateItemDto);
 
       if (!updatedItem) {
@@ -189,7 +204,7 @@ export class ItemController {
         return;
       }
 
-      res.json(updatedItem);
+      res.json(updatedItem); // Повертає оновлений товар
     } catch (error) {
       console.error("Error updating item:", error);
       res.status(500).json({ error: "Internal server error" });
@@ -197,26 +212,28 @@ export class ItemController {
   };
 
   /**
-   * Deletes an item from the database
-   * @param req - Express request object containing item ID in params
+   * Видаляє товар з бази даних
+   * @param req - Express request object з ID товару в параметрах
    * @param res - Express response object
    * @returns Promise<void>
    */
   delete = async (req: Request, res: Response): Promise<void> => {
     try {
+      // Перевірка формату ID
       const id = parseInt(req.params.id);
       if (isNaN(id)) {
         res.status(400).json({ error: "Invalid ID format" });
         return;
       }
 
+      // Видалення товару
       const deleted = await this.itemService.remove(id);
       if (!deleted) {
         res.status(404).json({ error: "Item not found" });
         return;
       }
 
-      res.status(204).send();
+      res.status(204).send(); // Повертає успішний статус без тіла відповіді
     } catch (error) {
       console.error("Error deleting item:", error);
       res.status(500).json({ error: "Internal server error" });

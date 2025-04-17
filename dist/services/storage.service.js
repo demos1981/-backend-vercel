@@ -8,11 +8,17 @@ class StorageService {
             const fileExt = file.originalname.split(".").pop();
             const fileName = `${itemId}/${Date.now()}.${fileExt}`;
             const filePath = `${fileName}`;
-            await supabase_config_1.supabase.storage.from(supabase_config_1.bucketName).upload(filePath, file.buffer, {
+            const { error: uploadError } = await supabase_config_1.supabase.storage
+                .from(supabase_config_1.bucketName)
+                .upload(filePath, file.buffer, {
                 contentType: file.mimetype,
                 cacheControl: "3600",
                 upsert: false,
             });
+            if (uploadError) {
+                console.error("Помилка при завантаженні файлу:", uploadError.message);
+                throw new Error("Не вдалося завантажити файл у Supabase.");
+            }
             const { data: { publicUrl }, } = supabase_config_1.supabase.storage.from(supabase_config_1.bucketName).getPublicUrl(filePath);
             return publicUrl;
         }
