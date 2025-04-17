@@ -21,7 +21,7 @@ const defaultPort = parseInt(process.env.PORT || "3000", 10);
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 app.use("/api/items", item_routes_1.default);
-app.use("/api/media", media_routes_1.default);
+app.use("/api", media_routes_1.default);
 app.get("/", (_req, res) => {
     res.send("Hello, server is listen you gays!");
 });
