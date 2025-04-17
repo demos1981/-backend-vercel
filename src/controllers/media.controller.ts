@@ -18,16 +18,14 @@ export class MediaController {
         return;
       }
 
-      const item = await this.itemService.findById(itemId);
-      if (!item) {
+      const media = await this.itemService.getItemMedia(itemId);
+
+      if (!media) {
         res.status(404).json({ error: "Item not found" });
         return;
       }
 
-      res.json({
-        photoUrl: item.photoUrl || null,
-        videoUrl: item.videoUrl || null,
-      });
+      res.json(media);
     } catch (error) {
       console.error("Error getting item media:", error);
       res.status(500).json({ error: "Failed to get item media" });

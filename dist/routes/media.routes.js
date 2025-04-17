@@ -14,8 +14,8 @@ const upload = (0, multer_1.default)({
     storage,
     limits: { fileSize: 10 * 1024 * 1024 },
 });
-router.post("/items/:id/photo", upload.single("file"), mediaController.uploadPhoto);
-router.post("/items/:id/video", upload.single("file"), mediaController.uploadVideo);
+router.post("/items/:id/photo", upload.single("photo"), mediaController.uploadPhoto);
+router.post("/items/:id/video", upload.single("video"), mediaController.uploadVideo);
 router.delete("/items/:id/photo", mediaController.deletePhoto);
 router.delete("/items/:id/video", mediaController.deleteVideo);
 exports.default = router;

@@ -19,7 +19,7 @@ app.use(express.json());
 
 // Routes
 app.use("/api/items", itemRoutes);
-app.use("/api/media", mediaRoutes);
+app.use("/api", mediaRoutes);
 
 // Health check endpoint
 app.get("/", (_req, res) => {

@@ -7,6 +7,7 @@ export class StorageService {
    * @param itemId - The ID of the item this file belongs to
    * @returns Promise<string> - The public URL of the uploaded file
    */
+
   async uploadFile(file: Express.Multer.File, itemId: number): Promise<string> {
     try {
       const fileExt = file.originalname.split(".").pop();

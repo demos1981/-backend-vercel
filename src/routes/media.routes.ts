@@ -15,12 +15,12 @@ const upload = multer({
 // Маршрути для завантаження та видалення медіа
 router.post(
   "/items/:id/photo",
-  upload.single("file"),
+  upload.single("photo"),
   mediaController.uploadPhoto
 );
 router.post(
   "/items/:id/video",
-  upload.single("file"),
+  upload.single("video"),
   mediaController.uploadVideo
 );
 router.delete("/items/:id/photo", mediaController.deletePhoto);

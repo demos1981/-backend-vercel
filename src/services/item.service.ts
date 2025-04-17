@@ -9,7 +9,18 @@ export class ItemService {
   constructor() {
     this.itemRepository = AppDataSource.getRepository(Item);
   }
+  async getItemMedia(
+    id: number
+  ): Promise<{ photoUrl: string | null; videoUrl: string | null } | null> {
+    const item = await this.itemRepository.findOneBy({ id });
 
+    if (!item) return null;
+
+    return {
+      photoUrl: item.photoUrl || null,
+      videoUrl: item.videoUrl || null,
+    };
+  }
   async create(createItemDto: ICreateItemDto): Promise<Item> {
     const item = this.itemRepository.create(createItemDto);
     return this.itemRepository.save(item);
