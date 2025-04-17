@@ -1,48 +1,85 @@
+/**
+ * MediaController - клас, який відповідає за управління медіафайлами (фото та відео) для елементів системи.
+ * Використовує сервіси для роботи з файловим сховищем та елементами бази даних.
+ */
 import { Request, Response } from "express";
 import { StorageService } from "../services/storage.service";
 import { ItemService } from "../services/item.service";
 
 export class MediaController {
-  private storageService: StorageService;
-  private itemService: ItemService;
+  private storageService: StorageService; // Сервіс для роботи з файловим сховищем (Supabase)
+  private itemService: ItemService; // Сервіс для роботи з елементами бази даних
 
+  /**
+   * Ініціалізує сервіси, необхідні для управління медіафайлами
+   */
   constructor() {
     this.storageService = new StorageService();
     this.itemService = new ItemService();
   }
 
   /**
-   * Uploads a photo for an item
-   * @param req - Express request object containing the file and item ID
-   * @param res - Express response object
+   * Отримує всі медіафайли, пов'язані з елементом за його ID
+   * @param req - Об'єкт запиту з параметром id
+   * @param res - Об'єкт відповіді
    */
-  uploadPhoto = async (req: Request, res: Response): Promise<void> => {
+  getItemMedia = async (req: Request, res: Response): Promise<void> => {
     try {
-      if (!req.file) {
-        res.status(400).json({ error: "No file uploaded" });
-        return;
-      }
-      console.log("Отримано файл:", req.file);
       const itemId = parseInt(req.params.id);
       if (isNaN(itemId)) {
         res.status(400).json({ error: "Invalid item ID" });
         return;
       }
 
-      // Check if item exists
+      const media = await this.itemService.getItemMedia(itemId);
+
+      if (!media) {
+        res.status(404).json({ error: "Item not found" });
+        return;
+      }
+
+      res.json(media); // Повертає об'єкт з медіафайлами елемента
+    } catch (error) {
+      console.error("Error getting item media:", error);
+      res.status(500).json({ error: "Failed to get item media" });
+    }
+  };
+
+  /**
+   * Завантажує фотографію для елемента
+   * @param req - Express request object containing the file and item ID
+   * @param res - Express response object
+   */
+  uploadPhoto = async (req: Request, res: Response): Promise<void> => {
+    try {
+      // Перевірка наявності файлу в запиті
+      if (!req.file) {
+        res.status(400).json({ error: "No file uploaded" });
+        return;
+      }
+      console.log("Отримано файл:", req.file); // Лог для відстеження отриманого файлу
+
+      // Перевірка валідності ID елемента
+      const itemId = parseInt(req.params.id);
+      if (isNaN(itemId)) {
+        res.status(400).json({ error: "Invalid item ID" });
+        return;
+      }
+
+      // Перевірка існування елемента
       const item = await this.itemService.findById(itemId);
       if (!item) {
         res.status(404).json({ error: "Item not found" });
         return;
       }
 
-      // Upload file to Supabase
+      // Завантаження файлу в Supabase
       const photoUrl = await this.storageService.uploadFile(req.file, itemId);
 
-      // Update item with new photo URL
+      // Оновлення елемента з новим URL фотографії
       await this.itemService.update(itemId, { photoUrl });
 
-      res.json({ photoUrl });
+      res.json({ photoUrl }); // Повертає URL завантаженої фотографії
     } catch (error) {
       console.error("Error uploading photo:", error);
       res.status(500).json({ error: "Failed to upload photo" });
@@ -50,37 +87,39 @@ export class MediaController {
   };
 
   /**
-   * Uploads a video for an item
+   * Завантажує відео для елемента
    * @param req - Express request object containing the file and item ID
    * @param res - Express response object
    */
   uploadVideo = async (req: Request, res: Response): Promise<void> => {
     try {
+      // Перевірка наявності файлу в запиті
       if (!req.file) {
         res.status(400).json({ error: "No file uploaded" });
         return;
       }
 
+      // Перевірка валідності ID елемента
       const itemId = parseInt(req.params.id);
       if (isNaN(itemId)) {
         res.status(400).json({ error: "Invalid item ID" });
         return;
       }
 
-      // Check if item exists
+      // Перевірка існування елемента
       const item = await this.itemService.findById(itemId);
       if (!item) {
         res.status(404).json({ error: "Item not found" });
         return;
       }
 
-      // Upload file to Supabase
+      // Завантаження файлу в Supabase
       const videoUrl = await this.storageService.uploadFile(req.file, itemId);
 
-      // Update item with new video URL
+      // Оновлення елемента з новим URL відео
       await this.itemService.update(itemId, { videoUrl });
 
-      res.json({ videoUrl });
+      res.json({ videoUrl }); // Повертає URL завантаженого відео
     } catch (error) {
       console.error("Error uploading video:", error);
       res.status(500).json({ error: "Failed to upload video" });
@@ -88,19 +127,20 @@ export class MediaController {
   };
 
   /**
-   * Deletes a photo from an item
+   * Видаляє фотографію елемента
    * @param req - Express request object containing the item ID
    * @param res - Express response object
    */
   deletePhoto = async (req: Request, res: Response): Promise<void> => {
     try {
+      // Перевірка валідності ID елемента
       const itemId = parseInt(req.params.id);
       if (isNaN(itemId)) {
         res.status(400).json({ error: "Invalid item ID" });
         return;
       }
 
-      // Get item to check if it exists and has a photo
+      // Отримання елемента для перевірки існування та наявності фотографії
       const item = await this.itemService.findById(itemId);
       if (!item) {
         res.status(404).json({ error: "Item not found" });
@@ -112,13 +152,13 @@ export class MediaController {
         return;
       }
 
-      // Delete file from Supabase
+      // Видалення файлу з Supabase
       await this.storageService.deleteFile(item.photoUrl);
 
-      // Update item to remove photo URL
+      // Оновлення елемента для видалення URL фотографії
       await this.itemService.update(itemId, { photoUrl: null });
 
-      res.status(204).send();
+      res.status(204).send(); // Успішне виконання без контенту
     } catch (error) {
       console.error("Error deleting photo:", error);
       res.status(500).json({ error: "Failed to delete photo" });
@@ -126,19 +166,20 @@ export class MediaController {
   };
 
   /**
-   * Deletes a video from an item
+   * Видаляє відео елемента
    * @param req - Express request object containing the item ID
    * @param res - Express response object
    */
   deleteVideo = async (req: Request, res: Response): Promise<void> => {
     try {
+      // Перевірка валідності ID елемента
       const itemId = parseInt(req.params.id);
       if (isNaN(itemId)) {
         res.status(400).json({ error: "Invalid item ID" });
         return;
       }
 
-      // Get item to check if it exists and has a video
+      // Отримання елемента для перевірки існування та наявності відео
       const item = await this.itemService.findById(itemId);
       if (!item) {
         res.status(404).json({ error: "Item not found" });
@@ -150,13 +191,13 @@ export class MediaController {
         return;
       }
 
-      // Delete file from Supabase
+      // Видалення файлу з Supabase
       await this.storageService.deleteFile(item.videoUrl);
 
-      // Update item to remove video URL
+      // Оновлення елемента для видалення URL відео
       await this.itemService.update(itemId, { videoUrl: null });
 
-      res.status(204).send();
+      res.status(204).send(); // Успішне виконання без контенту
     } catch (error) {
       console.error("Error deleting video:", error);
       res.status(500).json({ error: "Failed to delete video" });

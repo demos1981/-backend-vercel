@@ -30,6 +30,15 @@ class ItemService {
         this.itemRepository.merge(item, cleanUpdateDto);
         return this.itemRepository.save(item);
     }
+    async getItemMedia(id) {
+        const item = await this.itemRepository.findOneBy({ id });
+        if (!item)
+            return null;
+        return {
+            photoUrl: item.photoUrl || null,
+            videoUrl: item.videoUrl || null,
+        };
+    }
     async remove(id) {
         const result = await this.itemRepository.delete(id);
         return result.affected ? result.affected > 0 : false;

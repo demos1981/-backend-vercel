@@ -8,6 +8,8 @@ import { errorHandler } from "./middleware/error.middleware";
 import dotenv from "dotenv";
 import { createServer } from "net";
 import { injectSpeedInsights } from "@vercel/speed-insights";
+import { checkSupabaseConnection } from "./config/supabase.config";
+
 dotenv.config();
 injectSpeedInsights();
 const app = express();
@@ -29,7 +31,7 @@ app.get("/", (_req, res) => {
 // Error handling middleware
 app.use(errorHandler);
 
-// Function to check if a port is in use
+// Перевірка, чи порт зайнятий
 const isPortInUse = (port: number): Promise<boolean> => {
   return new Promise((resolve) => {
     const server = createServer()
@@ -43,7 +45,7 @@ const isPortInUse = (port: number): Promise<boolean> => {
   });
 };
 
-// Function to find an available port
+// Пошук вільного порт
 const findAvailablePort = async (startPort: number): Promise<number> => {
   let port = startPort;
   while (await isPortInUse(port)) {
@@ -57,6 +59,12 @@ const startServer = async () => {
   try {
     await AppDataSource.initialize();
     console.log("Data Source has been initialized!");
+
+    const isSupabaseConnected = await checkSupabaseConnection(); //  перевірка supabase
+    if (!isSupabaseConnected) {
+      console.error("❌ Failed to connect to Supabase");
+      process.exit(1);
+    }
 
     const port = await findAvailablePort(defaultPort);
     app.listen(port, () => {
