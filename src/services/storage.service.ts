@@ -2,7 +2,7 @@
  * Сервіс для роботи з файловим сховищем Supabase
  * Забезпечує функціональність завантаження та видалення файлів
  */
-import { supabase, bucketName } from "../config/supabase.config";
+import { supabase, bucketName } from "../utils/checkSupabaseConnection";
 
 export class StorageService {
   /**

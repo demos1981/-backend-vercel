@@ -2,6 +2,7 @@
  * Item Controller - Handles HTTP requests related to item management
  * Implements CRUD operations and input validation for items
  */
+import { AppError } from "../utils/AppError";
 import { Request, Response } from "express";
 import { ItemService } from "../services/item.service";
 import { ICreateItemDto, IUpdateItemDto } from "../types/item.types";
@@ -55,8 +56,7 @@ export class ItemController {
       // Пошук товару за ID
       const item = await this.itemService.findById(id);
       if (!item) {
-        res.status(404).json({ error: "Item not found" });
-        return;
+        throw new AppError(`Item with ID ${id} not found`, 404);
       }
 
       // Повертає знайдений товар з вибраними полями

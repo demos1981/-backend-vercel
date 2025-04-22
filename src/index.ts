@@ -1,6 +1,10 @@
 import "reflect-metadata";
 import express from "express";
+import morgan from "morgan";
 import cors from "cors";
+import bodyParser from "body-parser";
+import compression from "compression";
+import hpp from "hpp";
 import { AppDataSource } from "./config/data-source";
 import itemRoutes from "./routes/item.routes";
 import mediaRoutes from "./routes/media.routes";
@@ -8,16 +12,22 @@ import { errorHandler } from "./middleware/error.middleware";
 import dotenv from "dotenv";
 import { createServer } from "net";
 import { injectSpeedInsights } from "@vercel/speed-insights";
-import { checkSupabaseConnection } from "./config/supabase.config";
+import { checkSupabaseConnection } from "./utils/checkSupabaseConnection";
+import helmet from "helmet";
 
 dotenv.config();
 injectSpeedInsights();
 const app = express();
 const defaultPort = parseInt(process.env.PORT || "3000", 10);
-
+const loggerMiddleware = morgan("dev");
 // Middleware
+
 app.use(cors());
-app.use(express.json());
+app.use(compression());
+app.use(helmet());
+app.use(hpp());
+app.use(bodyParser.json());
+app.use(loggerMiddleware);
 
 // Routes
 app.use("/api/items", itemRoutes);

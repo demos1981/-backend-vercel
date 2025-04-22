@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ItemController = void 0;
+const AppError_1 = require("../utils/AppError");
 const item_service_1 = require("../services/item.service");
 const enums_1 = require("../types/enums");
 class ItemController {
@@ -24,8 +25,7 @@ class ItemController {
                 }
                 const item = await this.itemService.findById(id);
                 if (!item) {
-                    res.status(404).json({ error: "Item not found" });
-                    return;
+                    throw new AppError_1.AppError(`Item with ID ${id} not found`, 404);
                 }
                 res.json({
                     id: item.id,

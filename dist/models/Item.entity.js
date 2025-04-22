@@ -62,7 +62,7 @@ __decorate([
         default: enums_1.ItemStatusEnum.NEW,
     }),
     __metadata("design:type", String)
-], Item.prototype, "role", void 0);
+], Item.prototype, "status", void 0);
 __decorate([
     (0, typeorm_1.Column)({
         type: "enum",

@@ -55,6 +55,7 @@ export const bucketName: string = process.env.SUPABASE_BUCKET as string;
  *
  * @returns Promise<boolean> - true, якщо з'єднання успішне і бакет існує, false - інакше
  */
+
 export const checkSupabaseConnection = async () => {
   try {
     // Спочатку спробуємо отримати список бакетів для перевірки з'єднання

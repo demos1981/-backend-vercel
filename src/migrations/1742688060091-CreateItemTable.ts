@@ -65,7 +65,7 @@ export class CreateItemTable1742688060091 implements MigrationInterface {
           {
             name: "role",
             type: "enum",
-            enum: ["new", "stock"],
+            enum: ["new", "stock", "old"],
             default: "'new'",
           },
           {

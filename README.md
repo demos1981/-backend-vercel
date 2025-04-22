@@ -1,4 +1,8 @@
-# Vercel PostgreSQL Backend
+# Headless technology
+
+FrontEnd and BackEnd are located separately on different servers and communicate via API
+
+## Vercel PostgreSQL Backend
 
 This is a Node.js/Express backend application configured for deployment on Vercel with PostgreSQL database integration using TypeORM.
 
@@ -126,3 +130,47 @@ The TypeORM configuration is located in `src/config/data-source.ts`. Key setting
 - Migrations are stored in `src/migrations`
 - Synchronization is disabled in production
 - Logging is enabled in development mode
+
+## Project structure
+
+src/
+├── config/ # Configuration files
+│ ├── data-source.ts # TypeORM configuration
+│ ├── supabase.config.ts # Supabase configuration
+├── controllers/ # Controllers for handling HTTP requests
+│ ├── item.controller.ts # Handles CRUD operations for items
+│ ├── media.controller.ts # Handles media-related operations
+├── database/ # Database-related scripts
+│ ├── migrations/ # Database migrations
+│ ├── seed.ts # Database seeding script
+├── dto/ # Data Transfer Objects (DTOs)
+├── middleware/ # Express middleware
+│ ├── error.middleware.ts # Centralized error-handling middleware
+│ ├── multer.middleware.ts # Middleware for handling file uploads
+├── models/ # Database entities
+│ ├── Item.entity.ts # Item entity definition
+├── routes/ # API routes
+│ ├── item.routes.ts # Routes for item-related endpoints
+│ ├── media.routes.ts # Routes for media-related endpoints
+├── services/ # Business logic
+│ ├── item.service.ts # Service for item-related operations
+│ ├── storage.service.ts # Service for storage-related operations
+├── types/ # TypeScript types and enums
+│ ├── enums.ts # Enums used across the application
+│ ├── item.types.ts # Types related to items
+│ ├── user.types.ts # Types related to users
+├── utils/ # Utility functions (if needed)
+│ ├── AppError.ts # Custom error class for centralized error handling
+├── index.ts # Application entry point
+
+config/: Contains configuration files for the database and external services.
+controllers/: Handles HTTP requests and responses for specific resources.
+database/: Includes database migrations and seeding scripts.
+dto/: Contains Data Transfer Objects for validating and transferring data.
+middleware/: Includes middleware for error handling, file uploads, and other request/response processing.
+models/: Defines database entities using TypeORM.
+routes/: Defines API routes and maps them to controllers.
+services/: Contains business logic and interacts with the database or external services.
+types/: Defines reusable TypeScript types and enums.
+utils/: Contains utility functions and classes, such as the AppError class for centralized error handling.
+index.ts: The main entry point of the application, where the server is initialized and started.
