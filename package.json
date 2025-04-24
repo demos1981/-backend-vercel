@@ -14,7 +14,8 @@
     "migration:run": "npm run typeorm migration:run -d src/config/data-source.ts",
     "migration:revert": "npm run typeorm migration:revert -d src/config/data-source.ts",
     "seed": "ts-node src/seed.ts",
-    "init:redis": "ts-node src/config/initializeRedis.ts"
+    "init:redis": "ts-node src/config/initializeRedis.ts",
+    "ts-node": "ts-node  src/script/connectRedis.ts"
   },
   "keywords": [],
   "author": "",

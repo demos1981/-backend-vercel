@@ -23,13 +23,13 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.logout = exports.token = exports.login = exports.register = void 0;
-const jsonwebtoken_1 = require("jsonwebtoken");
+exports.logout = exports.validateRefreshToken = exports.token = exports.login = exports.register = void 0;
+const jwt_1 = require("../utils/jwt");
 const authService = __importStar(require("../services/auth.service"));
 const messageError_1 = require("../utils/messageError");
 const tokenManagemnet_1 = require("../utils/tokenManagemnet");
 const AppError_1 = require("../utils/AppError");
-const jwt_1 = require("../utils/jwt");
+const jwt_2 = require("../utils/jwt");
 const register = async (req, res, next) => {
     try {
         const registerUserDto = req.body;
@@ -57,8 +57,8 @@ const login = async (req, res, next) => {
             throw new AppError_1.AppError(messageError_1.ErrorMessage.errorInvalidPassword, 400);
         }
         const payload = { id: user.user.id, email: user.user.email };
-        const accessToken = (0, jwt_1.generateAccessToken)(payload);
-        const refreshToken = (0, jwt_1.generateRefreshToken)(payload);
+        const accessToken = (0, jwt_2.generateAccessToken)(payload);
+        const refreshToken = (0, jwt_2.generateRefreshToken)(payload);
         await (0, tokenManagemnet_1.storeRefreshToken)(user.user.id, refreshToken);
         res.json({ accessToken, refreshToken });
     }
@@ -73,12 +73,12 @@ const token = async (req, res, next) => {
         if (!token) {
             throw new AppError_1.AppError("Token is required", 401);
         }
-        const storedToken = await (0, tokenManagemnet_1.retrieveRefreshToken)(token);
+        const storedToken = await (0, tokenManagemnet_1.getRefreshToken)(token);
         if (!storedToken) {
             throw new AppError_1.AppError("Invalid refresh token", 403);
         }
-        const decoded = (0, jsonwebtoken_1.verify)(token, process.env.REFRESH_TOKEN_SECRET);
-        const newAccessToken = (0, jwt_1.generateAccessToken)({
+        const decoded = (0, jwt_1.verifyRefreshToken)(token);
+        const newAccessToken = (0, jwt_2.generateAccessToken)({
             id: decoded.id,
             email: decoded.email,
         });
@@ -89,6 +89,20 @@ const token = async (req, res, next) => {
     }
 };
 exports.token = token;
+const validateRefreshToken = async (refreshToken) => {
+    try {
+        const decoded = (0, jwt_1.verifyRefreshToken)(refreshToken);
+        const storedToken = await (0, tokenManagemnet_1.getRefreshToken)(decoded.id);
+        if (!storedToken || storedToken !== refreshToken) {
+            throw new AppError_1.AppError("Invalid or expired refresh token", 403);
+        }
+        return decoded;
+    }
+    catch (error) {
+        throw new AppError_1.AppError("Invalid or expired refresh token", 403);
+    }
+};
+exports.validateRefreshToken = validateRefreshToken;
 const logout = async (req, res, next) => {
     try {
         const { token } = req.body;

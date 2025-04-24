@@ -1,11 +1,9 @@
 import { Request, Response, NextFunction } from "express";
-import { JwtPayload, verify } from "jsonwebtoken";
+
+import { verifyRefreshToken } from "../utils/jwt";
 import * as authService from "../services/auth.service";
 import { ErrorMessage } from "../utils/messageError";
-import {
-  retrieveRefreshToken,
-  storeRefreshToken,
-} from "../utils/tokenManagemnet";
+import { getRefreshToken, storeRefreshToken } from "../utils/tokenManagemnet";
 import { RegisterUserDto } from "../dto/auth.dto";
 import { AppError } from "../utils/AppError";
 import { generateAccessToken, generateRefreshToken } from "../utils/jwt";
@@ -74,15 +72,12 @@ export const token = async (
       throw new AppError("Token is required", 401);
     }
 
-    const storedToken = await retrieveRefreshToken(token);
+    const storedToken = await getRefreshToken(token);
     if (!storedToken) {
       throw new AppError("Invalid refresh token", 403);
     }
 
-    const decoded = verify(
-      token,
-      process.env.REFRESH_TOKEN_SECRET!
-    ) as JwtPayload;
+    const decoded = verifyRefreshToken(token);
     const newAccessToken = generateAccessToken({
       id: decoded.id,
       email: decoded.email,
@@ -91,6 +86,20 @@ export const token = async (
     res.json({ accessToken: newAccessToken });
   } catch (error) {
     next(error);
+  }
+};
+export const validateRefreshToken = async (refreshToken: string) => {
+  try {
+    const decoded = verifyRefreshToken(refreshToken);
+
+    const storedToken = await getRefreshToken(decoded.id);
+    if (!storedToken || storedToken !== refreshToken) {
+      throw new AppError("Invalid or expired refresh token", 403);
+    }
+
+    return decoded;
+  } catch (error) {
+    throw new AppError("Invalid or expired refresh token", 403);
   }
 };
 

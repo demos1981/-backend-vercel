@@ -1,28 +1,44 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.removeRefreshToken = exports.retrieveRefreshToken = exports.storeRefreshToken = void 0;
-const refreshTokens_entity_1 = require("../models/refreshTokens.entity");
+exports.getUserIdByToken = exports.removeRefreshToken = exports.getRefreshToken = exports.storeRefreshToken = exports.redis = void 0;
+const ioredis_1 = __importDefault(require("ioredis"));
+exports.redis = new ioredis_1.default({
+    host: process.env.REDIS_HOST || "18.156.158.53",
+    port: Number(process.env.REDIS_PORT) || 6379,
+    password: process.env.REDIS_PASSWORD || undefined,
+    connectTimeout: 10000,
+});
+exports.redis.on("error", (err) => {
+    console.error("[Redis] Connection error:", err.message);
+});
+exports.redis.on("connect", () => {
+    console.log("[Redis] Connected successfully");
+});
 const storeRefreshToken = async (userId, token) => {
-    const expiryDate = new Date();
-    expiryDate.setDate(expiryDate.getDate() + 30);
-    await refreshTokens_entity_1.RefreshToken.save({
-        userId,
-        token,
-        expiryDate,
-    });
+    await exports.redis.set(`refresh:${userId}`, token, "EX", 7 * 24 * 60 * 60);
 };
 exports.storeRefreshToken = storeRefreshToken;
-const retrieveRefreshToken = async (token) => {
-    const refreshToken = await refreshTokens_entity_1.RefreshToken.findOne({
-        where: { token },
-    });
-    if (!refreshToken || refreshToken.expiryDate <= new Date())
-        return null;
-    return refreshToken.token;
+const getRefreshToken = async (userId) => {
+    return await exports.redis.get(`refresh:${userId}`);
 };
-exports.retrieveRefreshToken = retrieveRefreshToken;
-const removeRefreshToken = async (token) => {
-    await refreshTokens_entity_1.RefreshToken.delete({ token });
+exports.getRefreshToken = getRefreshToken;
+const removeRefreshToken = async (userId) => {
+    await exports.redis.del(`refresh:${userId}`);
 };
 exports.removeRefreshToken = removeRefreshToken;
+const getUserIdByToken = async (token) => {
+    const keys = await exports.redis.keys("refresh:*");
+    for (const key of keys) {
+        const storedToken = await exports.redis.get(key);
+        if (storedToken === token) {
+            const userId = parseInt(key.split(":")[1]);
+            return userId;
+        }
+    }
+    return null;
+};
+exports.getUserIdByToken = getUserIdByToken;
 //# sourceMappingURL=tokenManagemnet.js.map

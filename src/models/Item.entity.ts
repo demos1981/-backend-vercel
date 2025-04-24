@@ -44,7 +44,7 @@ export class Item {
     enum: ItemStatusEnum,
     default: ItemStatusEnum.NEW,
   })
-  status: ItemStatusEnum;
+  role: ItemStatusEnum;
 
   @Column({
     type: "enum",

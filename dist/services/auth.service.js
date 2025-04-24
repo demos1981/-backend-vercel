@@ -7,7 +7,7 @@ exports.logoutUser = exports.loginUser = exports.registerUser = void 0;
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const user_entity_1 = require("../models/user.entity");
 const jwt_1 = require("../utils/jwt");
-const redis_1 = require("../utils/redis");
+const tokenManagemnet_1 = require("../utils/tokenManagemnet");
 const registerUser = async (registerUserData) => {
     const { name, email, password } = registerUserData;
     const hashPassword = await bcrypt_1.default.hash(password, 10);
@@ -36,7 +36,7 @@ const loginUser = async (email, password) => {
 };
 exports.loginUser = loginUser;
 const logoutUser = async (userId) => {
-    await (0, redis_1.removeRefreshToken)(userId);
+    await (0, tokenManagemnet_1.removeRefreshToken)(userId);
 };
 exports.logoutUser = logoutUser;
 //# sourceMappingURL=auth.service.js.map

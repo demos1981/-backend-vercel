@@ -2,7 +2,7 @@ import bcrypt from "bcrypt";
 import { User } from "../models/user.entity";
 import { RegisterUserDto } from "../dto/auth.dto";
 import { generateAccessToken, generateRefreshToken } from "../utils/jwt";
-import { removeRefreshToken } from "../utils/redis";
+import { removeRefreshToken } from "../utils/tokenManagemnet";
 
 export const registerUser = async (
   registerUserData: RegisterUserDto
