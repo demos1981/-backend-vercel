@@ -6,6 +6,15 @@ export const redis = new Redis({
   password: process.env.REDIS_PASSWORD || undefined,
 });
 
+// Handle connection errors
+redis.on("error", (err) => {
+  console.error("[Redis] Connection error:", err.message);
+});
+
+redis.on("connect", () => {
+  console.log("[Redis] Connected successfully");
+});
+
 export const storeRefreshToken = async (userId: number, token: string) => {
   await redis.set(`refresh:${userId}`, token, "EX", 7 * 24 * 60 * 60); // 7 днів
 };

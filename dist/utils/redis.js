@@ -10,6 +10,12 @@ exports.redis = new ioredis_1.default({
     port: Number(process.env.REDIS_PORT) || 6379,
     password: process.env.REDIS_PASSWORD || undefined,
 });
+exports.redis.on("error", (err) => {
+    console.error("[Redis] Connection error:", err.message);
+});
+exports.redis.on("connect", () => {
+    console.log("[Redis] Connected successfully");
+});
 const storeRefreshToken = async (userId, token) => {
     await exports.redis.set(`refresh:${userId}`, token, "EX", 7 * 24 * 60 * 60);
 };
