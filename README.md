@@ -2,9 +2,9 @@
 
 FrontEnd and BackEnd are located separately on different servers and communicate via API
 
-## Vercel PostgreSQL Backend
+## Render PostgreSQL Backend
 
-This is a Node.js/Express backend application configured for deployment on Vercel with PostgreSQL database integration using TypeORM.
+This is a Node.js/Express backend application configured for deployment on Render with PostgreSQL database integration using TypeORM.
 
 ## Prerequisites
 
@@ -40,19 +40,9 @@ npm run migration:run
 npm run dev
 ```
 
-## Deployment to Vercel
+## Deployment to Render
 
-1. Install Vercel CLI (optional):
-
-```bash
-npm i -g vercel
-```
-
-2. Deploy to Vercel:
-
-```bash
-vercel
-```
+## include PostgreSQL to Vercel project and connect to Render via API
 
 3. Set up PostgreSQL database:
 

@@ -8,6 +8,7 @@ import hpp from "hpp";
 import { AppDataSource } from "./config/data-source";
 import itemRoutes from "./routes/item.routes";
 import mediaRoutes from "./routes/media.routes";
+import authRoutes from "./routes/auth.routes";
 import { errorHandler } from "./middleware/error.middleware";
 import dotenv from "dotenv";
 import { createServer } from "net";
@@ -31,7 +32,8 @@ app.use(loggerMiddleware);
 
 // Routes
 app.use("/api/items", itemRoutes);
-app.use("/api", mediaRoutes);
+app.use("/api/media", mediaRoutes);
+app.use("/api/auth", authRoutes);
 
 // Health check endpoint
 app.get("/", (_req, res) => {

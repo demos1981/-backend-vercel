@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ItemSexEnum = exports.ItemStatusEnum = void 0;
+exports.UserRole = exports.ItemSexEnum = exports.ItemStatusEnum = void 0;
 var ItemStatusEnum;
 (function (ItemStatusEnum) {
     ItemStatusEnum["NEW"] = "new";
@@ -14,4 +14,10 @@ var ItemSexEnum;
     ItemSexEnum["CHILDREN"] = "children";
     ItemSexEnum["UNISEX"] = "unisex";
 })(ItemSexEnum || (exports.ItemSexEnum = ItemSexEnum = {}));
+var UserRole;
+(function (UserRole) {
+    UserRole["ADMIN"] = "ADMIN";
+    UserRole["OWNER"] = "OWNER";
+    UserRole["CUSTOMER"] = "CUSTOMER";
+})(UserRole || (exports.UserRole = UserRole = {}));
 //# sourceMappingURL=enums.js.map

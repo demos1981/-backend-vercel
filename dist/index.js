@@ -13,6 +13,7 @@ const hpp_1 = __importDefault(require("hpp"));
 const data_source_1 = require("./config/data-source");
 const item_routes_1 = __importDefault(require("./routes/item.routes"));
 const media_routes_1 = __importDefault(require("./routes/media.routes"));
+const auth_routes_1 = __importDefault(require("./routes/auth.routes"));
 const error_middleware_1 = require("./middleware/error.middleware");
 const dotenv_1 = __importDefault(require("dotenv"));
 const net_1 = require("net");
@@ -31,7 +32,8 @@ app.use((0, hpp_1.default)());
 app.use(body_parser_1.default.json());
 app.use(loggerMiddleware);
 app.use("/api/items", item_routes_1.default);
-app.use("/api", media_routes_1.default);
+app.use("/api/media", media_routes_1.default);
+app.use("/api/auth", auth_routes_1.default);
 app.get("/", (_req, res) => {
     res.send("Hello, server is listen you gays!");
 });
