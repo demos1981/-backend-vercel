@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.removeRefreshToken = exports.getRefreshToken = exports.storeRefreshToken = exports.redis = void 0;
 const ioredis_1 = __importDefault(require("ioredis"));
 exports.redis = new ioredis_1.default({
-    host: process.env.REDIS_HOST || "127.0.0.1",
+    host: process.env.REDIS_HOST || "18.156.158.53",
     port: Number(process.env.REDIS_PORT) || 6379,
     password: process.env.REDIS_PASSWORD || undefined,
 });
