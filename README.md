@@ -164,3 +164,7 @@ services/: Contains business logic and interacts with the database or external s
 types/: Defines reusable TypeScript types and enums.
 utils/: Contains utility functions and classes, such as the AppError class for centralized error handling.
 index.ts: The main entry point of the application, where the server is initialized and started.
+
+## Connest to Redis DB
+
+Connecting to redis for saves token.
