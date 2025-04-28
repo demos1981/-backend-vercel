@@ -32,7 +32,7 @@ app.use((0, hpp_1.default)());
 app.use(body_parser_1.default.json());
 app.use(loggerMiddleware);
 app.use("/api/items", item_routes_1.default);
-app.use("/api/media", media_routes_1.default);
+app.use("/api", media_routes_1.default);
 app.use("/api/auth", auth_routes_1.default);
 app.get("/", (_req, res) => {
     res.send("Hello, server is listen you gays!");

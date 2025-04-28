@@ -32,7 +32,7 @@ app.use(loggerMiddleware);
 
 // Routes
 app.use("/api/items", itemRoutes);
-app.use("/api/media", mediaRoutes);
+app.use("/api", mediaRoutes);
 app.use("/api/auth", authRoutes);
 
 // Health check endpoint

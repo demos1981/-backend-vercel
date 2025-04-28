@@ -19,33 +19,6 @@ export class MediaController {
   }
 
   /**
-   * Отримує всі медіафайли, пов'язані з елементом за його ID
-   * @param req - Об'єкт запиту з параметром id
-   * @param res - Об'єкт відповіді
-   */
-  getItemMedia = async (req: Request, res: Response): Promise<void> => {
-    try {
-      const itemId = parseInt(req.params.id);
-      if (isNaN(itemId)) {
-        res.status(400).json({ error: "Invalid item ID" });
-        return;
-      }
-
-      const media = await this.itemService.getItemMedia(itemId);
-
-      if (!media) {
-        res.status(404).json({ error: "Item not found" });
-        return;
-      }
-
-      res.json(media); // Повертає об'єкт з медіафайлами елемента
-    } catch (error) {
-      console.error("Error getting item media:", error);
-      res.status(500).json({ error: "Failed to get item media" });
-    }
-  };
-
-  /**
    * Завантажує фотографію для елемента
    * @param req - Express request object containing the file and item ID
    * @param res - Express response object
@@ -83,6 +56,33 @@ export class MediaController {
     } catch (error) {
       console.error("Error uploading photo:", error);
       res.status(500).json({ error: "Failed to upload photo" });
+    }
+  };
+
+  /**
+   * Отримує всі медіафайли, пов'язані з елементом за його ID
+   * @param req - Об'єкт запиту з параметром id
+   * @param res - Об'єкт відповіді
+   */
+  getItemMedia = async (req: Request, res: Response): Promise<void> => {
+    try {
+      const itemId = parseInt(req.params.id);
+      if (isNaN(itemId)) {
+        res.status(400).json({ error: "Invalid item ID" });
+        return;
+      }
+
+      const media = await this.itemService.getItemMedia(itemId);
+
+      if (!media) {
+        res.status(404).json({ error: "Item not found" });
+        return;
+      }
+
+      res.json(media); // Повертає об'єкт з медіафайлами елемента
+    } catch (error) {
+      console.error("Error getting item media:", error);
+      res.status(500).json({ error: "Failed to get item media" });
     }
   };
 

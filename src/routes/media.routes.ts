@@ -15,21 +15,20 @@ const router: Router = express.Router();
 const mediaController = new MediaController();
 
 /**
- * GET /items/:id/media
- * Отримання медіафайлів (URL фото та відео) для конкретного елемента за його ID
- */
-router.get("/items/:id/media", mediaController.getItemMedia);
-
-/**
  * POST /items/:id/photo
  * Завантаження фото для елемента
  * Використовує middleware multer для обробки файлу з поля "photo"
  */
 router.post(
-  "/items/:id/photo",
+  "/:id/photo",
   upload.single("photo"), // Middleware для обробки одного файлу з поля "photo"
   mediaController.uploadPhoto // Обробник завантаження фото
 );
+/**
+ * GET /items/:id/media
+ * Отримання медіафайлів (URL фото та відео) для конкретного елемента за його ID
+ */
+router.get("/:id/photo", mediaController.getItemMedia);
 
 /**
  * POST /items/:id/video
@@ -37,7 +36,7 @@ router.post(
  * Використовує middleware multer для обробки файлу з поля "video"
  */
 router.post(
-  "/items/:id/video",
+  "/:id/video",
   upload.single("video"), // Middleware для обробки одного файлу з поля "video"
   mediaController.uploadVideo // Обробник завантаження відео
 );
@@ -46,12 +45,12 @@ router.post(
  * DELETE /items/:id/photo
  * Видалення фотографії для елемента за його ID
  */
-router.delete("/items/:id/photo", mediaController.deletePhoto);
+router.delete("/:id/photo", mediaController.deletePhoto);
 
 /**
  * DELETE /items/:id/video
  * Видалення відео для елемента за його ID
  */
-router.delete("/items/:id/video", mediaController.deleteVideo);
+router.delete("/:id/video", mediaController.deleteVideo);
 
 export default router;

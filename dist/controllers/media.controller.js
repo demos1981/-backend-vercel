@@ -5,25 +5,6 @@ const storage_service_1 = require("../services/storage.service");
 const item_service_1 = require("../services/item.service");
 class MediaController {
     constructor() {
-        this.getItemMedia = async (req, res) => {
-            try {
-                const itemId = parseInt(req.params.id);
-                if (isNaN(itemId)) {
-                    res.status(400).json({ error: "Invalid item ID" });
-                    return;
-                }
-                const media = await this.itemService.getItemMedia(itemId);
-                if (!media) {
-                    res.status(404).json({ error: "Item not found" });
-                    return;
-                }
-                res.json(media);
-            }
-            catch (error) {
-                console.error("Error getting item media:", error);
-                res.status(500).json({ error: "Failed to get item media" });
-            }
-        };
         this.uploadPhoto = async (req, res) => {
             try {
                 if (!req.file) {
@@ -48,6 +29,25 @@ class MediaController {
             catch (error) {
                 console.error("Error uploading photo:", error);
                 res.status(500).json({ error: "Failed to upload photo" });
+            }
+        };
+        this.getItemMedia = async (req, res) => {
+            try {
+                const itemId = parseInt(req.params.id);
+                if (isNaN(itemId)) {
+                    res.status(400).json({ error: "Invalid item ID" });
+                    return;
+                }
+                const media = await this.itemService.getItemMedia(itemId);
+                if (!media) {
+                    res.status(404).json({ error: "Item not found" });
+                    return;
+                }
+                res.json(media);
+            }
+            catch (error) {
+                console.error("Error getting item media:", error);
+                res.status(500).json({ error: "Failed to get item media" });
             }
         };
         this.uploadVideo = async (req, res) => {
