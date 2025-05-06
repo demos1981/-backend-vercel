@@ -7,7 +7,7 @@ import {
 } from "typeorm";
 import { ItemStatusEnum, ItemSexEnum } from "../types/enums";
 
-@Entity("item")
+@Entity({ name: "item" })
 export class Item {
   @PrimaryGeneratedColumn()
   id: number;

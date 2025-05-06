@@ -12,7 +12,7 @@ import {
 import { Item } from "./itemEntity";
 import { UserRole } from "../types/enums";
 
-@Entity("user")
+@Entity({ name: "user" })
 export class User extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;

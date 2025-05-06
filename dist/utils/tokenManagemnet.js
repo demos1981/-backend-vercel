@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getUserIdByToken = exports.removeRefreshToken = exports.getRefreshToken = exports.storeRefreshToken = exports.redis = void 0;
 const ioredis_1 = __importDefault(require("ioredis"));
 exports.redis = new ioredis_1.default({
-    host: "localhost",
+    host: "redis://default:kElYbB8fAJT2358r8kAQuytcFoKQzcrk@redis-18525.c57.us-east-1-4.ec2.redns.redis-cloud.com:18525",
     port: 6379,
 });
 exports.redis.on("error", (err) => {

@@ -2,7 +2,7 @@ import Redis from "ioredis";
 
 // Ініціалізація Redis-клієнта, що підключається до локального Redis-сервера
 export const redis = new Redis({
-  host: "localhost", // Хост Redis-сервера
+  host: "redis://default:kElYbB8fAJT2358r8kAQuytcFoKQzcrk@redis-18525.c57.us-east-1-4.ec2.redns.redis-cloud.com:18525", // Хост Redis-сервера
   port: 6379, // Порт Redis-сервера (за замовчуванням 6379)
 });
 
