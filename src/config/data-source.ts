@@ -1,6 +1,6 @@
 import { DataSource } from "typeorm";
-import { Item } from "../models/Item.entity";
-import { User } from "../models/User.entity";
+import { Item } from "../models/itemEntity";
+import { User } from "../models/userEntity";
 import { CreateItemTable1742688060091 } from "../migrations/1742688060091-CreateItemTable";
 import { CreateUser1680000000000 } from "../migrations/1680000000000-CreateUser";
 import dotenv from "dotenv";

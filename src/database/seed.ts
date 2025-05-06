@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import { AppDataSource } from "../config/data-source";
-import { Item } from "../models/Item.entity";
+import { Item } from "../models/itemEntity";
 import { ItemStatusEnum, ItemSexEnum } from "../types/enums";
 
 const sampleItems = [

@@ -7,7 +7,7 @@ import bcrypt from "bcrypt";
 /**
  * Імпортує модель User, яка представляє користувача в базі даних.
  */
-import { User } from "../models/User.entity";
+import { User } from "../models/userEntity";
 
 /**
  * Імпортує тип даних для реєстрації користувача.

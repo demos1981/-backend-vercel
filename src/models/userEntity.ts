@@ -9,7 +9,7 @@ import {
   ManyToMany,
   JoinTable,
 } from "typeorm";
-import { Item } from "./Item.entity";
+import { Item } from "./itemEntity";
 import { UserRole } from "../types/enums";
 
 @Entity("user")

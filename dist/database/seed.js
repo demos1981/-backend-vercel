@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.seedDatabase = void 0;
 require("reflect-metadata");
 const data_source_1 = require("../config/data-source");
-const Item_entity_1 = require("../models/Item.entity");
+const itemEntity_1 = require("../models/itemEntity");
 const enums_1 = require("../types/enums");
 const sampleItems = [
     {
@@ -93,7 +93,7 @@ const sampleItems = [
 ];
 async function seedDatabase() {
     try {
-        const itemRepository = data_source_1.AppDataSource.getRepository(Item_entity_1.Item);
+        const itemRepository = data_source_1.AppDataSource.getRepository(itemEntity_1.Item);
         await itemRepository.clear();
         for (const item of sampleItems) {
             const newItem = itemRepository.create(item);

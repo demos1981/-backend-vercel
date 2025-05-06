@@ -1,6 +1,6 @@
 import { Response, NextFunction } from "express";
 import { verifyAccessToken } from "../utils/jwt";
-import { User } from "../models/User.entity";
+import { User } from "../models/userEntity";
 import { RequestWithUser } from "../types/auth.interface";
 import { AppError } from "../utils/AppError";
 

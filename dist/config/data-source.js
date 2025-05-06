@@ -5,8 +5,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppDataSource = void 0;
 const typeorm_1 = require("typeorm");
-const Item_entity_1 = require("../models/Item.entity");
-const User_entity_1 = require("../models/User.entity");
+const itemEntity_1 = require("../models/itemEntity");
+const userEntity_1 = require("../models/userEntity");
 const _1742688060091_CreateItemTable_1 = require("../migrations/1742688060091-CreateItemTable");
 const _1680000000000_CreateUser_1 = require("../migrations/1680000000000-CreateUser");
 const dotenv_1 = __importDefault(require("dotenv"));
@@ -18,7 +18,7 @@ exports.AppDataSource = new typeorm_1.DataSource({
     ssl: {
         rejectUnauthorized: false,
     },
-    entities: [User_entity_1.User, Item_entity_1.Item],
+    entities: [userEntity_1.User, itemEntity_1.Item],
     migrations: [_1742688060091_CreateItemTable_1.CreateItemTable1742688060091, _1680000000000_CreateUser_1.CreateUser1680000000000],
     migrationsRun: true,
     synchronize: false,

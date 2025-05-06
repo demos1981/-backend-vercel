@@ -2,10 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ItemService = void 0;
 const data_source_1 = require("../config/data-source");
-const Item_entity_1 = require("../models/Item.entity");
+const itemEntity_1 = require("../models/itemEntity");
 class ItemService {
     constructor() {
-        this.itemRepository = data_source_1.AppDataSource.getRepository(Item_entity_1.Item);
+        this.itemRepository = data_source_1.AppDataSource.getRepository(itemEntity_1.Item);
     }
     async create(createItemDto) {
         const item = this.itemRepository.create(createItemDto);

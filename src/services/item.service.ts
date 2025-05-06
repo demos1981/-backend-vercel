@@ -4,7 +4,7 @@
  */
 import { Repository } from "typeorm";
 import { AppDataSource } from "../config/data-source";
-import { Item } from "../models/Item.entity";
+import { Item } from "../models/itemEntity";
 import { ICreateItemDto, IUpdateItemDto } from "../types/item.types";
 
 export class ItemService {
