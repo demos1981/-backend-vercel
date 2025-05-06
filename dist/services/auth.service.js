@@ -5,13 +5,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.logoutUser = exports.loginUser = exports.registerUser = void 0;
 const bcrypt_1 = __importDefault(require("bcrypt"));
-const user_entity_1 = require("../models/user.entity");
+const User_entity_1 = require("../models/User.entity");
 const jwt_1 = require("../utils/jwt");
 const tokenManagemnet_1 = require("../utils/tokenManagemnet");
 const registerUser = async (registerUserData) => {
     const { name, email, password } = registerUserData;
     const hashPassword = await bcrypt_1.default.hash(password, 10);
-    const newUser = await user_entity_1.User.save({
+    const newUser = await User_entity_1.User.save({
         name,
         email,
         password: hashPassword,
@@ -20,7 +20,7 @@ const registerUser = async (registerUserData) => {
 };
 exports.registerUser = registerUser;
 const loginUser = async (email, password) => {
-    const user = await user_entity_1.User.createQueryBuilder("user")
+    const user = await User_entity_1.User.createQueryBuilder("user")
         .addSelect("user.password")
         .where("user.email = :email", { email })
         .getOne();

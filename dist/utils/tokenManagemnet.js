@@ -16,27 +16,33 @@ exports.redis.on("connect", () => {
     console.log("[Redis] Connected successfully");
 });
 const storeRefreshToken = async (userId, token) => {
-    await exports.redis.set(`refresh:${userId}`, token, "EX", 7 * 24 * 60 * 60);
+    const keyByUserId = `refresh:${userId}`;
+    const keyByToken = `refresh_token:${token}`;
+    const expiration = 7 * 24 * 60 * 60;
+    await Promise.all([
+        exports.redis.set(keyByUserId, token, "EX", expiration),
+        exports.redis.set(keyByToken, userId.toString(), "EX", expiration),
+    ]);
 };
 exports.storeRefreshToken = storeRefreshToken;
 const getRefreshToken = async (userId) => {
-    return await exports.redis.get(`refresh:${userId}`);
+    const key = `refresh:${userId}`;
+    return await exports.redis.get(key);
 };
 exports.getRefreshToken = getRefreshToken;
 const removeRefreshToken = async (userId) => {
-    await exports.redis.del(`refresh:${userId}`);
+    const keyByUserId = `refresh:${userId}`;
+    const token = await exports.redis.get(keyByUserId);
+    if (token) {
+        const keyByToken = `refresh_token:${token}`;
+        await exports.redis.del(keyByUserId, keyByToken);
+    }
 };
 exports.removeRefreshToken = removeRefreshToken;
 const getUserIdByToken = async (token) => {
-    const keys = await exports.redis.keys("refresh:*");
-    for (const key of keys) {
-        const storedToken = await exports.redis.get(key);
-        if (storedToken === token) {
-            const userId = parseInt(key.split(":")[1]);
-            return userId;
-        }
-    }
-    return null;
+    const key = `refresh_token:${token}`;
+    const userIdStr = await exports.redis.get(key);
+    return userIdStr ? parseInt(userIdStr) : null;
 };
 exports.getUserIdByToken = getUserIdByToken;
 //# sourceMappingURL=tokenManagemnet.js.map

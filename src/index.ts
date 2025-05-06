@@ -19,7 +19,7 @@ import helmet from "helmet";
 dotenv.config();
 injectSpeedInsights();
 const app = express();
-const defaultPort = parseInt(process.env.PORT || "3000", 10);
+const defaultPort = parseInt(process.env.PORT || "3001", 10);
 const loggerMiddleware = morgan("dev");
 // Middleware
 

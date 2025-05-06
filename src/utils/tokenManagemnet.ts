@@ -1,50 +1,78 @@
 import Redis from "ioredis";
+
+// Ініціалізація Redis-клієнта, що підключається до локального Redis-сервера
 export const redis = new Redis({
-  host: "localhost",
-  port: 6379,
+  host: "localhost", // Хост Redis-сервера
+  port: 6379, // Порт Redis-сервера (за замовчуванням 6379)
 });
 
-// export const redis = new Redis({
-//   host: process.env.REDIS_HOST || "18.156.158.53",
-//   port: Number(process.env.REDIS_PORT) || 6379,
-//   password: process.env.REDIS_PASSWORD || undefined,
-//   connectTimeout: 10000,
-// });
-
-// Handle connection errors
+// Обробка помилок з'єднання з Redis
 redis.on("error", (err) => {
   console.error("[Redis] Connection error:", err.message);
 });
 
+// Вивід повідомлення при успішному підключенні
 redis.on("connect", () => {
   console.log("[Redis] Connected successfully");
 });
 
-// Функції для роботи з токенами в Redis
+//
+// ------------------ Операції з refresh токенами ------------------
+//
+
+/**
+ * Зберігає refresh токен у Redis по userId та окремо по самому токену.
+ * @param userId - Ідентифікатор користувача
+ * @param token - Refresh токен
+ */
 export const storeRefreshToken = async (userId: number, token: string) => {
-  await redis.set(`refresh:${userId}`, token, "EX", 7 * 24 * 60 * 60); // 7 днів
+  const keyByUserId: string = `refresh:${userId}`; // Ключ за userId
+  const keyByToken: string = `refresh_token:${token}`; // Ключ за токеном
+
+  const expiration: number = 7 * 24 * 60 * 60; // Термін життя токена: 7 днів у секундах
+
+  await Promise.all([
+    redis.set(keyByUserId, token, "EX", expiration), // Зберігаємо токен по userId
+    redis.set(keyByToken, userId.toString(), "EX", expiration), // Зберігаємо userId по токену
+  ]);
 };
 
-export const getRefreshToken = async (userId: number) => {
-  return await redis.get(`refresh:${userId}`);
+/**
+ * Отримує токен користувача за його userId.
+ * @param userId - Ідентифікатор користувача
+ * @returns токен або null
+ */
+export const getRefreshToken = async (
+  userId: number
+): Promise<string | null> => {
+  const key: string = `refresh:${userId}`;
+  return await redis.get(key);
 };
 
+/**
+ * Видаляє токен користувача як за userId, так і за токеном.
+ * @param userId - Ідентифікатор користувача
+ */
 export const removeRefreshToken = async (userId: number) => {
-  await redis.del(`refresh:${userId}`);
+  const keyByUserId: string = `refresh:${userId}`;
+  const token: string | null = await redis.get(keyByUserId); // Отримуємо токен, якщо існує
+
+  if (token) {
+    const keyByToken: string = `refresh_token:${token}`;
+    await redis.del(keyByUserId, keyByToken); // Видаляємо обидва ключі
+  }
 };
 
-export const getUserIdByToken = async (token: string) => {
-  // Отримання всіх ключів, які починаються з "refresh:"
-  const keys = await redis.keys("refresh:*");
+/**
+ * Отримує userId по refresh токену.
+ * @param token - Refresh токен
+ * @returns userId або null
+ */
+export const getUserIdByToken = async (
+  token: string
+): Promise<number | null> => {
+  const key: string = `refresh_token:${token}`;
+  const userIdStr: string | null = await redis.get(key); // Отримуємо userId як рядок
 
-  for (const key of keys) {
-    const storedToken = await redis.get(key);
-    if (storedToken === token) {
-      // Отримуємо userId з ключа (формат "refresh:userId")
-      const userId = parseInt(key.split(":")[1]);
-      return userId;
-    }
-  }
-
-  return null; // Токен не знайдено
+  return userIdStr ? parseInt(userIdStr) : null;
 };

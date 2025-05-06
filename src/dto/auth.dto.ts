@@ -11,4 +11,8 @@ export class RegisterUserDto {
   @IsNotEmpty()
   @IsOptional()
   public password: string;
+
+  @IsNotEmpty()
+  @IsString()
+  public role: string;
 }

@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const jwt_1 = require("../utils/jwt");
-const user_entity_1 = require("../models/user.entity");
+const User_entity_1 = require("../models/User.entity");
 const AppError_1 = require("../utils/AppError");
 const authMiddleware = () => {
     return async (req, _res, next) => {
@@ -20,7 +20,7 @@ const authMiddleware = () => {
                 throw new AppError_1.AppError("Access token secret is not defined", 500);
             }
             const { id } = (0, jwt_1.verifyAccessToken)(token);
-            const user = await user_entity_1.User.findOne({ where: { id } });
+            const user = await User_entity_1.User.findOne({ where: { id } });
             if (!user) {
                 throw new AppError_1.AppError("User not found", 401);
             }

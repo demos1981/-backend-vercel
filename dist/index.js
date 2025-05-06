@@ -23,7 +23,7 @@ const helmet_1 = __importDefault(require("helmet"));
 dotenv_1.default.config();
 (0, speed_insights_1.injectSpeedInsights)();
 const app = (0, express_1.default)();
-const defaultPort = parseInt(process.env.PORT || "3000", 10);
+const defaultPort = parseInt(process.env.PORT || "3001", 10);
 const loggerMiddleware = (0, morgan_1.default)("dev");
 app.use((0, cors_1.default)());
 app.use((0, compression_1.default)());
