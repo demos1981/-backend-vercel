@@ -26,7 +26,7 @@ export class User extends BaseEntity {
   @Column({ type: "varchar", length: 128, nullable: false, select: false })
   password!: string;
 
-  @Column({ type: "varchar", length: 128, nullable: false })
+  @Column({ type: "enum", enum: UserRole, default: UserRole.CUSTOMER })
   role!: UserRole;
 
   @ManyToMany(() => Item, { cascade: true })
