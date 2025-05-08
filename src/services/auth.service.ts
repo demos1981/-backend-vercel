@@ -38,12 +38,13 @@ export const registerUser = async (
 ): Promise<User> => {
   const { name, email, password } = registerUserData;
   const hashPassword = await bcrypt.hash(password, 10);
-  const newUser: User = await User.save({
-    name,
-    email,
-    password: hashPassword,
-    // Встановлюємо роль за замовчуванням
-  });
+  // Правильне створення користувача в TypeORM
+  const user = new User();
+  user.name = name;
+  user.email = email;
+  user.password = hashPassword;
+
+  const newUser = await user.save(); // Зберігаємо нового користувача в базі даних
 
   return newUser;
 };
