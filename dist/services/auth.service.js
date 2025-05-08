@@ -29,7 +29,10 @@ const loginUser = async (email, password) => {
     const isPasswordValid = await bcrypt_1.default.compare(password, user.password);
     if (!isPasswordValid)
         return null;
-    const payload = { id: user.id, email: user.email };
+    const payload = {
+        id: user.id,
+        email: user.email,
+    };
     const accessToken = (0, jwt_1.generateAccessToken)(payload);
     const refreshToken = (0, jwt_1.generateRefreshToken)(payload);
     return { user, accessToken, refreshToken };

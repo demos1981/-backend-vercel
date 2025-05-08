@@ -42,6 +42,7 @@ export const registerUser = async (
     name,
     email,
     password: hashPassword,
+    // Встановлюємо роль за замовчуванням
   });
 
   return newUser;
@@ -74,7 +75,10 @@ export const loginUser = async (
   const isPasswordValid = await bcrypt.compare(password, user.password);
   if (!isPasswordValid) return null;
 
-  const payload = { id: user.id, email: user.email };
+  const payload: { id: number; email: string } = {
+    id: user.id,
+    email: user.email,
+  };
   const accessToken = generateAccessToken(payload);
   const refreshToken = generateRefreshToken(payload);
 

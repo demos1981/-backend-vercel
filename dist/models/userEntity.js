@@ -33,7 +33,7 @@ __decorate([
     __metadata("design:type", String)
 ], User.prototype, "password", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: "varchar", length: 128, nullable: false }),
+    (0, typeorm_1.Column)({ type: "enum", enum: enums_1.UserRole, default: enums_1.UserRole.CUSTOMER }),
     __metadata("design:type", String)
 ], User.prototype, "role", void 0);
 __decorate([
