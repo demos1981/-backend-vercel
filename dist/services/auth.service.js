@@ -11,11 +11,11 @@ const tokenManagemnet_1 = require("../utils/tokenManagemnet");
 const registerUser = async (registerUserData) => {
     const { name, email, password } = registerUserData;
     const hashPassword = await bcrypt_1.default.hash(password, 10);
-    const newUser = await userEntity_1.User.save({
-        name,
-        email,
-        password: hashPassword,
-    });
+    const user = new userEntity_1.User();
+    user.name = name;
+    user.email = email;
+    user.password = hashPassword;
+    const newUser = await user.save();
     return newUser;
 };
 exports.registerUser = registerUser;
