@@ -8,15 +8,25 @@ const bcrypt_1 = __importDefault(require("bcrypt"));
 const userEntity_1 = require("../models/userEntity");
 const jwt_1 = require("../utils/jwt");
 const tokenManagemnet_1 = require("../utils/tokenManagemnet");
+const AppError_1 = require("../utils/AppError");
+const enums_1 = require("../types/enums");
 const registerUser = async (registerUserData) => {
-    const { name, email, password } = registerUserData;
-    const hashPassword = await bcrypt_1.default.hash(password, 10);
-    const user = new userEntity_1.User();
-    user.name = name;
-    user.email = email;
-    user.password = hashPassword;
-    const newUser = await user.save();
-    return newUser;
+    const { name, email, password, role } = registerUserData;
+    try {
+        const hashPassword = await bcrypt_1.default.hash(password, 10);
+        const roleUser = role || enums_1.UserRole.CUSTOMER;
+        const user = new userEntity_1.User();
+        user.name = name;
+        user.email = email;
+        user.password = hashPassword;
+        user.role = roleUser;
+        const newUser = await user.save();
+        return newUser;
+    }
+    catch (error) {
+        console.error("❌ Помилка при реєстрації користувача:", error);
+        throw new AppError_1.AppError((error === null || error === void 0 ? void 0 : error.message) || "Не вдалося зареєструвати користувача", 500);
+    }
 };
 exports.registerUser = registerUser;
 const loginUser = async (email, password) => {

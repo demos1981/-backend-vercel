@@ -1,51 +1,11 @@
-/**
- * Імпортує типи Request, Response та NextFunction з бібліотеки express.
- * Ці типи використовуються для типізації параметрів у функціях-контролерах.
- */
 import { Request, Response, NextFunction } from "express";
-
-/**
- * Імпортує функцію для перевірки токена оновлення з модуля jwt.
- */
 import { verifyRefreshToken } from "../utils/jwt";
-
-/**
- * Імпортує всі функції з сервісу авторизації.
- * Сервіс містить логіку роботи з користувачами та авторизацією.
- */
 import * as authService from "../services/auth.service";
-
-/**
- * Імпортує клас ErrorMessage, який містить константи повідомлень про помилки.
- */
 import { ErrorMessage } from "../utils/messageError";
-
-/**
- * Імпортує функції для управління токенами оновлення в системі зберігання.
- * - getRefreshToken - отримує збережений токен оновлення
- * - storeRefreshToken - зберігає токен оновлення
- */
 import { getRefreshToken, storeRefreshToken } from "../utils/tokenManagemnet";
-
-/**
- * Імпортує тип даних для реєстрації користувача.
- * DTO (Data Transfer Object) - об'єкт, що використовується для передачі даних між шарами додатку.
- */
 import { RegisterUserDto } from "../dto/auth.dto";
-
-/**
- * Імпортує клас AppError для створення стандартизованих помилок додатку.
- */
 import { AppError } from "../utils/AppError";
-
-/**
- * Імпортує функції для генерації токенів доступу та оновлення.
- */
 import { generateAccessToken, generateRefreshToken } from "../utils/jwt";
-
-/**
- * Імпортує тип UserPayload, який визначає структуру даних користувача для токенів.
- */
 import { UserPayload } from "src/types/user.types";
 
 /**

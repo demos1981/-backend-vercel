@@ -1,30 +1,10 @@
-/**
- * Імпортує бібліотеку bcrypt для хешування паролів.
- * Bcrypt використовується для безпечного зберігання паролів у базі даних.
- */
 import bcrypt from "bcrypt";
-
-/**
- * Імпортує модель User, яка представляє користувача в базі даних.
- */
 import { User } from "../models/userEntity";
-
-/**
- * Імпортує тип даних для реєстрації користувача.
- * DTO (Data Transfer Object) визначає структуру даних, що надходять від клієнта.
- */
 import { RegisterUserDto } from "../dto/auth.dto";
-
-/**
- * Імпортує функції для генерації токенів доступу та оновлення.
- */
 import { generateAccessToken, generateRefreshToken } from "../utils/jwt";
-
-/**
- * Імпортує функцію для видалення токена оновлення зі сховища.
- */
 import { removeRefreshToken } from "../utils/tokenManagemnet";
-
+import { AppError } from "../utils/AppError";
+import { UserRole } from "../types/enums";
 /**
  * Функція для реєстрації нового користувача.
  *
@@ -36,17 +16,30 @@ import { removeRefreshToken } from "../utils/tokenManagemnet";
 export const registerUser = async (
   registerUserData: RegisterUserDto
 ): Promise<User> => {
-  const { name, email, password } = registerUserData;
-  const hashPassword = await bcrypt.hash(password, 10);
-  // Правильне створення користувача в TypeORM
-  const user = new User();
-  user.name = name;
-  user.email = email;
-  user.password = hashPassword;
+  const { name, email, password, role } = registerUserData;
 
-  const newUser = await user.save(); // Зберігаємо нового користувача в базі даних
+  try {
+    const hashPassword = await bcrypt.hash(password, 10);
+    const roleUser = role || UserRole.CUSTOMER;
 
-  return newUser;
+    const user = new User();
+    user.name = name;
+    user.email = email;
+    user.password = hashPassword;
+    user.role = roleUser;
+
+    const newUser = await user.save();
+
+    return newUser;
+  } catch (error: any) {
+    // Логування для дебагу, можна прибрати в продакшн середовищі
+    console.error("❌ Помилка при реєстрації користувача:", error);
+
+    throw new AppError(
+      error?.message || "Не вдалося зареєструвати користувача",
+      500
+    );
+  }
 };
 
 /**

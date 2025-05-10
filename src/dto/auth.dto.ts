@@ -1,4 +1,5 @@
 import { IsString, IsNotEmpty, IsOptional } from "class-validator";
+import { UserRole } from "../types/enums";
 
 export class RegisterUserDto {
   @IsNotEmpty()
@@ -9,10 +10,11 @@ export class RegisterUserDto {
   public email: string;
 
   @IsNotEmpty()
-  @IsOptional()
+  @IsString()
   public password: string;
 
   @IsNotEmpty()
   @IsString()
-  public role: string;
+  @IsOptional()
+  public role: UserRole;
 }
