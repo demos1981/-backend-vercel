@@ -10,33 +10,33 @@ import { ItemStatusEnum, ItemSexEnum } from "../types/enums";
 @Entity({ name: "item" })
 export class Item {
   @PrimaryGeneratedColumn()
-  id: number;
+  id!: number;
 
-  @Column()
+  @Column({ type: "varchar", nullable: true })
   articles: string;
 
-  @Column()
+  @Column({ type: "varchar", nullable: true })
   brand: string;
 
-  @Column()
+  @Column({ type: "varchar", nullable: true })
   name: string;
 
-  @Column()
+  @Column({ type: "varchar", nullable: true })
   description: string;
 
-  @Column()
+  @Column({ type: "integer", nullable: false, default: 0 })
   quantity: number;
 
-  @Column("numeric", { precision: 10, scale: 2 })
+  @Column("numeric", { precision: 10, scale: 2, nullable: true })
   price: number;
 
-  @Column()
+  @Column({ type: "varchar", nullable: true })
   barcode: string;
 
-  @Column()
+  @Column({ type: "varchar", nullable: true })
   color: string;
 
-  @Column()
+  @Column({ type: "varchar", nullable: true })
   size: string;
 
   @Column({
