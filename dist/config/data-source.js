@@ -21,7 +21,7 @@ exports.AppDataSource = new typeorm_1.DataSource({
     entities: [userEntity_1.User, itemEntity_1.Item],
     migrations: [_1742688060091_CreateItemTable_1.CreateItemTable1742688060091, _1680000000000_CreateUser_1.CreateUser1680000000000],
     migrationsRun: true,
-    synchronize: false,
+    synchronize: true,
     logging: !isProduction,
 });
 //# sourceMappingURL=data-source.js.map

@@ -20,39 +20,39 @@ __decorate([
     __metadata("design:type", Number)
 ], Item.prototype, "id", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ type: "varchar", nullable: true }),
     __metadata("design:type", String)
 ], Item.prototype, "articles", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ type: "varchar", nullable: true }),
     __metadata("design:type", String)
 ], Item.prototype, "brand", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ type: "varchar", nullable: true }),
     __metadata("design:type", String)
 ], Item.prototype, "name", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ type: "varchar", nullable: true }),
     __metadata("design:type", String)
 ], Item.prototype, "description", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ type: "integer", nullable: false, default: 0 }),
     __metadata("design:type", Number)
 ], Item.prototype, "quantity", void 0);
 __decorate([
-    (0, typeorm_1.Column)("numeric", { precision: 10, scale: 2 }),
+    (0, typeorm_1.Column)("numeric", { precision: 10, scale: 2, nullable: true }),
     __metadata("design:type", Number)
 ], Item.prototype, "price", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ type: "varchar", nullable: true }),
     __metadata("design:type", String)
 ], Item.prototype, "barcode", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ type: "varchar", nullable: true }),
     __metadata("design:type", String)
 ], Item.prototype, "color", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ type: "varchar", nullable: true }),
     __metadata("design:type", String)
 ], Item.prototype, "size", void 0);
 __decorate([
