@@ -22,8 +22,15 @@ const app = express();
 const defaultPort = parseInt(process.env.PORT || "3001", 10);
 const loggerMiddleware = morgan("dev");
 // Middleware
-
-app.use(cors());
+// CORS configuration
+const corsOptions = {
+  origin: process.env.CLIENT_URL || "http://localhost:3000", // your frontend URL
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization", "Form-Data"],
+  credentials: true,
+  optionsSuccessStatus: 200,
+};
+app.use(cors(corsOptions));
 app.use(compression());
 app.use(helmet());
 app.use(hpp());
