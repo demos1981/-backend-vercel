@@ -26,11 +26,13 @@ const loggerMiddleware = morgan("dev");
 const corsOptions = {
   origin: process.env.CLIENT_URL || "http://localhost:3000", // your frontend URL
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization", "Form-Data"],
+  allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true,
   optionsSuccessStatus: 200,
 };
+console.log("CORS Origin:", process.env.CLIENT_URL);
 app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
 app.use(compression());
 app.use(helmet());
 app.use(hpp());
