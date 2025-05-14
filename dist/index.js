@@ -25,7 +25,14 @@ dotenv_1.default.config();
 const app = (0, express_1.default)();
 const defaultPort = parseInt(process.env.PORT || "3001", 10);
 const loggerMiddleware = (0, morgan_1.default)("dev");
-app.use((0, cors_1.default)());
+const corsOptions = {
+    origin: process.env.CLIENT_URL || "http://localhost:3000",
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization", "Form-Data"],
+    credentials: true,
+    optionsSuccessStatus: 200,
+};
+app.use((0, cors_1.default)(corsOptions));
 app.use((0, compression_1.default)());
 app.use((0, helmet_1.default)());
 app.use((0, hpp_1.default)());
