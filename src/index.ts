@@ -23,17 +23,17 @@ const defaultPort = parseInt(process.env.PORT || "3001", 10);
 const loggerMiddleware = morgan("dev");
 // Middleware
 // CORS configuration
-// const corsOptions = {
-//   origin: process.env.CLIENT_URL || "http://localhost:3000", // your frontend URL
-//   methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-//   allowedHeaders: ["Content-Type", "Authorization"],
-//   credentials: true,
-//   optionsSuccessStatus: 200,
-// };
-// console.log("CORS Origin:", process.env.CLIENT_URL);
-// app.use(cors(corsOptions));
-// app.options("*", cors(corsOptions));
-app.use(cors());
+const corsOptions = {
+  origin: process.env.CLIENT_URL || "http://localhost:3000", // your frontend URL
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true,
+  optionsSuccessStatus: 200,
+};
+console.log("CORS Origin:", process.env.CLIENT_URL);
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
+// app.use(cors());
 app.use(compression());
 app.use(helmet());
 app.use(hpp());
