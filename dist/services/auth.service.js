@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.logoutUser = exports.loginUser = exports.registerUser = void 0;
+exports.logoutUser = exports.loginUser = exports.getAllUsers = exports.registerUser = void 0;
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const userEntity_1 = require("../models/userEntity");
 const jwt_1 = require("../utils/jwt");
@@ -29,6 +29,20 @@ const registerUser = async (registerUserData) => {
     }
 };
 exports.registerUser = registerUser;
+const getAllUsers = async (page = 1, limit = 10) => {
+    try {
+        const [users, total] = await userEntity_1.User.createQueryBuilder("user")
+            .skip((page - 1) * limit)
+            .take(limit)
+            .getManyAndCount();
+        return { users, total };
+    }
+    catch (error) {
+        console.error("❌ Помилка при отриманні користувачів:", error);
+        throw new AppError_1.AppError("Не вдалося отримати список користувачів", 500);
+    }
+};
+exports.getAllUsers = getAllUsers;
 const loginUser = async (email, password) => {
     const user = await userEntity_1.User.createQueryBuilder("user")
         .addSelect("user.password")

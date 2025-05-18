@@ -29,6 +29,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const AuthController = __importStar(require("../controllers/auth.controller"));
 const router = express_1.default.Router();
+router.get("/users", AuthController.getUsers);
 router.post("/register", AuthController.register);
 router.post("/login", AuthController.login);
 router.post("/token", AuthController.token);

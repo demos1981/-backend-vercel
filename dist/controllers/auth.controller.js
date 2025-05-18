@@ -23,7 +23,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.logout = exports.validateRefreshToken = exports.token = exports.login = exports.register = void 0;
+exports.logout = exports.validateRefreshToken = exports.token = exports.login = exports.getUsers = exports.register = void 0;
 const jwt_1 = require("../utils/jwt");
 const authService = __importStar(require("../services/auth.service"));
 const messageError_1 = require("../utils/messageError");
@@ -46,6 +46,26 @@ const register = async (req, res, next) => {
     }
 };
 exports.register = register;
+const getUsers = async (req, res, next) => {
+    try {
+        const page = Math.max(1, parseInt(req.query.page) || 1);
+        const limit = Math.min(100, parseInt(req.query.limit) || 10);
+        const { users, total } = await authService.getAllUsers(page, limit);
+        res.json({
+            users,
+            pagination: {
+                total,
+                page,
+                limit,
+                totalPages: Math.ceil(total / limit),
+            },
+        });
+    }
+    catch (error) {
+        next(error);
+    }
+};
+exports.getUsers = getUsers;
 const login = async (req, res, next) => {
     try {
         const { email, password } = req.body;

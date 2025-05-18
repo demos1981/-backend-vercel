@@ -42,6 +42,22 @@ export const registerUser = async (
   }
 };
 
+export const getAllUsers = async (
+  page: number = 1,
+  limit: number = 10
+): Promise<{ users: User[]; total: number }> => {
+  try {
+    const [users, total] = await User.createQueryBuilder("user")
+      .skip((page - 1) * limit)
+      .take(limit)
+      .getManyAndCount();
+
+    return { users, total };
+  } catch (error: any) {
+    console.error("❌ Помилка при отриманні користувачів:", error);
+    throw new AppError("Не вдалося отримати список користувачів", 500);
+  }
+};
 /**
  * Функція для входу користувача в систему.
  *
