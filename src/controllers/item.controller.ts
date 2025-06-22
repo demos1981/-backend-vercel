@@ -37,7 +37,15 @@ export class ItemController {
       res.status(500).json({ error: "Internal server error" });
     }
   };
-
+getMenItems = async (_req: Request, res: Response): Promise<void> => {
+  try {
+    const menItems = await this.itemService.findMenItems();
+    res.status(200).json(menItems);
+  } catch (error) {
+    console.error("Error fetching men items:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+};
   /**
    * Отримує один товар за його ID
    * @param req - Express request object з ID товару в параметрах

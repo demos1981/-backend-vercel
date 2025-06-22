@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ItemService = void 0;
 const data_source_1 = require("../config/data-source");
 const itemEntity_1 = require("../models/itemEntity");
+const enums_1 = require("../types/enums");
 class ItemService {
     constructor() {
         this.itemRepository = data_source_1.AppDataSource.getRepository(itemEntity_1.Item);
@@ -13,6 +14,11 @@ class ItemService {
     }
     async findAll() {
         return this.itemRepository.find();
+    }
+    async findMenItems() {
+        return this.itemRepository.find({
+            where: { sex: enums_1.ItemSexEnum.MAN },
+        });
     }
     async findById(id) {
         return this.itemRepository.findOneBy({ id });

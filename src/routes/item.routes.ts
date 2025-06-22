@@ -6,6 +6,7 @@ const itemController = new ItemController();
 
 // GET /api/items - Get all items
 router.get("/", itemController.getAll);
+router.get("/mans", itemController.getMenItems);
 
 // GET /api/items/:id - Get item by ID
 router.get("/:id", itemController.getById);

@@ -6,6 +6,7 @@ import { Repository } from "typeorm";
 import { AppDataSource } from "../config/data-source";
 import { Item } from "../models/itemEntity";
 import { ICreateItemDto, IUpdateItemDto } from "../types/item.types";
+import { ItemSexEnum } from "../types/enums";
 
 export class ItemService {
   private itemRepository: Repository<Item>; // Репозиторій для взаємодії з таблицею товарів у базі даних
@@ -35,6 +36,11 @@ export class ItemService {
     return this.itemRepository.find();
   }
 
+  async findMenItems(): Promise<Item[]> {
+    return this.itemRepository.find({
+      where: { sex: ItemSexEnum.MAN },
+    });
+  }
   /**
    * Знаходить товар за його ID
    * @param id - Унікальний ідентифікатор товару
