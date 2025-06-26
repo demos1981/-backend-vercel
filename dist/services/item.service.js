@@ -20,6 +20,11 @@ class ItemService {
             where: { sex: enums_1.ItemSexEnum.MAN },
         });
     }
+    async findWomenItems() {
+        return this.itemRepository.find({
+            where: { sex: enums_1.ItemSexEnum.WOMAN },
+        });
+    }
     async findById(id) {
         return this.itemRepository.findOneBy({ id });
     }
