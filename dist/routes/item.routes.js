@@ -7,6 +7,7 @@ const itemController = new item_controller_1.ItemController();
 router.get("/", itemController.getAll);
 router.get("/mans", itemController.getMenItems);
 router.get("/womens", itemController.getWomensItems);
+router.get("/kids", itemController.getKidsItems);
 router.get("/:id", itemController.getById);
 router.post("/", itemController.create);
 router.put("/:id", itemController.update);

@@ -13,6 +13,7 @@ var ItemSexEnum;
     ItemSexEnum["WOMAN"] = "woman";
     ItemSexEnum["CHILDREN"] = "children";
     ItemSexEnum["UNISEX"] = "unisex";
+    ItemSexEnum["ACCESSORIES"] = "accessories";
 })(ItemSexEnum || (exports.ItemSexEnum = ItemSexEnum = {}));
 var UserRole;
 (function (UserRole) {

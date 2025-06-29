@@ -36,6 +36,16 @@ class ItemController {
                 res.status(500).json({ error: "Server error" });
             }
         };
+        this.getKidsItems = async (_req, res) => {
+            try {
+                const kidItems = await this.itemService.findKidsItems();
+                res.status(200).json(kidItems);
+            }
+            catch (error) {
+                console.error("Error fetching kids items:", error);
+                res.status(500).json({ error: "Server error" });
+            }
+        };
         this.getById = async (req, res) => {
             try {
                 const id = parseInt(req.params.id);
