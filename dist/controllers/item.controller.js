@@ -16,6 +16,36 @@ class ItemController {
                 res.status(500).json({ error: "Internal server error" });
             }
         };
+        this.getMenItems = async (_req, res) => {
+            try {
+                const menItems = await this.itemService.findMenItems();
+                res.status(200).json(menItems);
+            }
+            catch (error) {
+                console.error("Error fetching men items:", error);
+                res.status(500).json({ error: "Server error" });
+            }
+        };
+        this.getWomensItems = async (_req, res) => {
+            try {
+                const items = await this.itemService.findWomenItems();
+                res.status(200).json(items);
+            }
+            catch (error) {
+                console.error("Error fetching woman items:", error);
+                res.status(500).json({ error: "Server error" });
+            }
+        };
+        this.getKidsItems = async (_req, res) => {
+            try {
+                const kidItems = await this.itemService.findKidsItems();
+                res.status(200).json(kidItems);
+            }
+            catch (error) {
+                console.error("Error fetching kids items:", error);
+                res.status(500).json({ error: "Server error" });
+            }
+        };
         this.getById = async (req, res) => {
             try {
                 const id = parseInt(req.params.id);

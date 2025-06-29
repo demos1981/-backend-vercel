@@ -40,6 +40,32 @@ export const register = async (
   }
 };
 
+export const getUsers = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    // Отримуємо параметри пагінації з query-параметрів
+    const page = Math.max(1, parseInt(req.query.page as string) || 1);
+    const limit = Math.min(100, parseInt(req.query.limit as string) || 10); // обмеження на максимум
+
+    const { users, total } = await authService.getAllUsers(page, limit);
+
+    res.json({
+      users,
+      pagination: {
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
+      },
+    }); // Повертає масив користувачів
+  } catch (error) {
+    next(error);
+  }
+};
+
 /**
  * Функція-контролер для входу користувача в систему.
  *
