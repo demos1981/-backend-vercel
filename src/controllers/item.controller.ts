@@ -57,6 +57,15 @@ export class ItemController {
       res.status(500).json({ error: "Server error" });
     }
   };
+  getKidsItems = async (_req: Request, res: Response): Promise<void> => {
+    try {
+      const kidItems = await this.itemService.findKidsItems();
+      res.status(200).json(kidItems);
+    } catch (error) {
+      console.error("Error fetching kids items:", error);
+      res.status(500).json({ error: "Server error" });
+    }
+  };
   /**:
    * Отримує один товар за його ID
    * @param req - Express request object з ID товару в параметрах
