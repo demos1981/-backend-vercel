@@ -41,7 +41,7 @@ export class ItemService {
       where: { sex: ItemSexEnum.MAN },
     });
   }
-  /** Отримує усі товари для чоловіків */
+  /** Отримує усі товари для жінок */
   async findWomenItems(): Promise<Item[]> {
     return this.itemRepository.find({
       where: { sex: ItemSexEnum.WOMAN },
