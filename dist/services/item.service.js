@@ -30,6 +30,26 @@ class ItemService {
             where: { sex: enums_1.ItemSexEnum.CHILDREN },
         });
     }
+    async findNewItems() {
+        return this.itemRepository.find({
+            where: { role: enums_1.ItemStatusEnum.NEW },
+        });
+    }
+    async findAccessoriesManItems() {
+        return this.itemRepository.find({
+            where: { sex: enums_1.ItemSexEnum.ACCESSORIES_MAN },
+        });
+    }
+    async findAccessoriesWomanItems() {
+        return this.itemRepository.find({
+            where: { sex: enums_1.ItemSexEnum.ACCESSORIES_WOMAN },
+        });
+    }
+    async findAccessoriesKidsItems() {
+        return this.itemRepository.find({
+            where: { sex: enums_1.ItemSexEnum.ACCESSORIES_CHILDREN },
+        });
+    }
     async findById(id) {
         return this.itemRepository.findOneBy({ id });
     }

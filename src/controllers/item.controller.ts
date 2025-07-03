@@ -57,6 +57,7 @@ export class ItemController {
       res.status(500).json({ error: "Server error" });
     }
   };
+
   getKidsItems = async (_req: Request, res: Response): Promise<void> => {
     try {
       const kidItems = await this.itemService.findKidsItems();
@@ -66,7 +67,56 @@ export class ItemController {
       res.status(500).json({ error: "Server error" });
     }
   };
-  /**:
+  /** Отримує усі товари з бази даних для нових товарів */
+  getNewItems = async (_req: Request, res: Response): Promise<void> => {
+    try {
+      const newItems = await this.itemService.findNewItems();
+      res.status(200).json(newItems);
+    } catch (error) {
+      console.error("Error fetching new items:", error);
+      res.status(500).json({ error: "Server error" });
+    }
+  };
+  getAccessoriesManItems = async (
+    _req: Request,
+    res: Response
+  ): Promise<void> => {
+    try {
+      const accessoriesManItems =
+        await this.itemService.findAccessoriesManItems();
+      res.status(200).json(accessoriesManItems);
+    } catch (error) {
+      console.error("Error fetching accessories man items:", error);
+      res.status(500).json({ error: "Server error" });
+    }
+  };
+  getAccessoriesWomanItems = async (
+    _req: Request,
+    res: Response
+  ): Promise<void> => {
+    try {
+      const accessoriesWomanItems =
+        await this.itemService.findAccessoriesWomanItems();
+      res.status(200).json(accessoriesWomanItems);
+    } catch (error) {
+      console.error("Error fetching accessories woman items:", error);
+      res.status(500).json({ error: "Server error" });
+    }
+  };
+  getAccessoriesKidsItems = async (
+    _req: Request,
+    res: Response
+  ): Promise<void> => {
+    try {
+      const accessoriesKidsItems =
+        await this.itemService.findAccessoriesKidsItems();
+      res.status(200).json(accessoriesKidsItems);
+    } catch (error) {
+      console.error("Error fetching accessories kids items:", error);
+      res.status(500).json({ error: "Server error" });
+    }
+  };
+  /**
    * Отримує один товар за його ID
    * @param req - Express request object з ID товару в параметрах
    * @param res - Express response object

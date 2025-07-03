@@ -6,7 +6,7 @@ import { Repository } from "typeorm";
 import { AppDataSource } from "../config/data-source";
 import { Item } from "../models/itemEntity";
 import { ICreateItemDto, IUpdateItemDto } from "../types/item.types";
-import { ItemSexEnum } from "../types/enums";
+import { ItemSexEnum, ItemStatusEnum } from "../types/enums";
 
 export class ItemService {
   private itemRepository: Repository<Item>; // Репозиторій для взаємодії з таблицею товарів у базі даних
@@ -53,6 +53,28 @@ export class ItemService {
       where: { sex: ItemSexEnum.CHILDREN },
     });
   }
+  /** Отримує усі нові товари */
+  async findNewItems(): Promise<Item[]> {
+    return this.itemRepository.find({
+      where: { role: ItemStatusEnum.NEW },
+    });
+  }
+  async findAccessoriesManItems(): Promise<Item[]> {
+    return this.itemRepository.find({
+      where: { sex: ItemSexEnum.ACCESSORIES_MAN },
+    });
+  }
+  async findAccessoriesWomanItems(): Promise<Item[]> {
+    return this.itemRepository.find({
+      where: { sex: ItemSexEnum.ACCESSORIES_WOMAN },
+    });
+  }
+  async findAccessoriesKidsItems(): Promise<Item[]> {
+    return this.itemRepository.find({
+      where: { sex: ItemSexEnum.ACCESSORIES_CHILDREN },
+    });
+  }
+
   /**
    * Знаходить товар за його ID
    * @param id - Унікальний ідентифікатор товару

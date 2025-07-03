@@ -13,7 +13,9 @@ var ItemSexEnum;
     ItemSexEnum["WOMAN"] = "woman";
     ItemSexEnum["CHILDREN"] = "children";
     ItemSexEnum["UNISEX"] = "unisex";
-    ItemSexEnum["ACCESSORIES"] = "accessories";
+    ItemSexEnum["ACCESSORIES_MAN"] = "accessories_man";
+    ItemSexEnum["ACCESSORIES_WOMAN"] = "accessories_woman";
+    ItemSexEnum["ACCESSORIES_CHILDREN"] = "accessories_children";
 })(ItemSexEnum || (exports.ItemSexEnum = ItemSexEnum = {}));
 var UserRole;
 (function (UserRole) {

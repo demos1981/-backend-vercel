@@ -46,6 +46,46 @@ class ItemController {
                 res.status(500).json({ error: "Server error" });
             }
         };
+        this.getNewItems = async (_req, res) => {
+            try {
+                const newItems = await this.itemService.findNewItems();
+                res.status(200).json(newItems);
+            }
+            catch (error) {
+                console.error("Error fetching new items:", error);
+                res.status(500).json({ error: "Server error" });
+            }
+        };
+        this.getAccessoriesManItems = async (_req, res) => {
+            try {
+                const accessoriesManItems = await this.itemService.findAccessoriesManItems();
+                res.status(200).json(accessoriesManItems);
+            }
+            catch (error) {
+                console.error("Error fetching accessories man items:", error);
+                res.status(500).json({ error: "Server error" });
+            }
+        };
+        this.getAccessoriesWomanItems = async (_req, res) => {
+            try {
+                const accessoriesWomanItems = await this.itemService.findAccessoriesWomanItems();
+                res.status(200).json(accessoriesWomanItems);
+            }
+            catch (error) {
+                console.error("Error fetching accessories woman items:", error);
+                res.status(500).json({ error: "Server error" });
+            }
+        };
+        this.getAccessoriesKidsItems = async (_req, res) => {
+            try {
+                const accessoriesKidsItems = await this.itemService.findAccessoriesKidsItems();
+                res.status(200).json(accessoriesKidsItems);
+            }
+            catch (error) {
+                console.error("Error fetching accessories kids items:", error);
+                res.status(500).json({ error: "Server error" });
+            }
+        };
         this.getById = async (req, res) => {
             try {
                 const id = parseInt(req.params.id);
